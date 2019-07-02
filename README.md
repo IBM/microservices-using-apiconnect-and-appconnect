@@ -11,6 +11,14 @@
 Follow these steps to setup and run this code pattern. The steps are described in detail below.
 
 1. [Get the code](#1-get-the-code)
+2. [Create IBM Cloud Services](#2-create-ibm-cloud-services)
+3. Configure API Connect
+4. Configure App Connect
+5. Setup environment for Kubernetes CLI
+6. [Deploy Mongo DB](#6-deploy-mongo-db)
+7. [Deploy Microservices](#7-deploy-microservices)
+8. Deploy webapp
+9. Analyze the result
 
 ## 1. Get the code
 
@@ -18,28 +26,73 @@ Follow these steps to setup and run this code pattern. The steps are described i
    ```
    git clone https://github.com/IBM/ngo-collaboration-using-blockchain
    ```
-Create IBM Kubernetes Service
+## 2. Create IBM Cloud Services
 
-Get the public IP for Kubernetes Cluster
+**Create IBM Kubernetes Service**
+Create a Kubernetes cluster with [IBM Cloud Kubernetes Service](https://cloud.ibm.com/containers-kubernetes/catalog/cluster) using GUI. This pattern uses the _free cluster_.
 
-Deploy Mongo DB in container
+  ![](images/create-service.png)
 
-cd mongodb
-kubectl create -f deploy_mongodb.yaml
+  > Note: It can take up to 15-20 minutes for the cluster to be set up and provisioned.
 
-status can be checked as:
-$ kubectl get pods
-NAME                    READY   STATUS    RESTARTS   AGE
-mongo-8dc7685d7-nxrcr   1/1     Running   0          73s
+## 5. Setup environment for Kubernetes CLI
 
-$ kubectl get services |grep mongo
-mongo        NodePort    172.21.84.39   <none>        27017:32643/TCP   11m
+  * Check the status of your cluster `IBM Cloud Dashboard -> <your cluster> -> Worker Nodes`. If status is not `normal`, then
+    you need to wait for some more time to proceed further.
 
-Deploy Microservices
+    ![](images/cluster-status.png)
+    
+  * Once your cluster is ready, open the access tab `IBM Cloud Dashboard -> <your cluster> -> Access` as shown in snapshot.
 
-As explained in step xx, we are creating login, bank account management, credit and debit functionality as microservice. User credentials and bank account details will be pre-defined in Mongo DB. MongoDB deployed in a container is used by all the microservices.
+    ![](images/gain-access-to-cluster.png)
+    
+    Perform the steps provided under this section.
+    
+  * Verify that the kubectl commands run properly with your cluster by checking the Kubernetes CLI server version.
 
-Follow the steps to deploy microservices.
+    ```
+    $ kubectl version  --short
+    Client Version: v1.9.2
+    Server Version: v1.8.6-4+9c2a4c1ed1ee7e
+    ```
+
+ **Get the public IP for Kubernetes Cluster**
+ Once cluster is up and running then find out the public IP of your cluster. It will be required for further steps.
+
+  * Go to IBM Cloud Dashboard.
+
+  * Click on your Kubernetes Cluster under `Clusters` section on Dashboard. It gives you details of the cluster.
+
+  * Access `Worker Nodes` tab, it will show you the public IP of your cluster as shown in below screenshot.
+
+    ![](images/worker-nodes.png)
+  
+   Make a note of this public IP. It will be used in next step.
+
+## 6. Deploy Mongo DB
+
+In this pattern, mongo db will be deployed in a container. Perform the following steps to deploy Mongo DB in container.
+
+```
+   $ cd mongodb
+   $ kubectl create -f deploy_mongodb.yaml
+```
+
+After deployment, the status can be checked as:
+```
+   $ kubectl get pods
+   NAME                    READY   STATUS    RESTARTS   AGE
+   mongo-8dc7685d7-nxrcr   1/1     Running   0          73s
+
+   $ kubectl get services |grep mongo
+   mongo        NodePort    172.21.84.39   <none>        27017:32643/TCP   11m
+```
+
+## 7. Deploy Microservices
+
+As explained in step xx, we are creating login, bank account management, credit and debit functionality as microservices. User credentials and bank account details will be pre-defined in Mongo DB. MongoDB deployed in a container is used by all the microservices.
+
+Perform the following steps to deploy microservices.
 
 Update Cluster Public IP and Mongo Container service port : Execute the following command to update mongo db connection string in app.js related to all services.
 
