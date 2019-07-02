@@ -1,0 +1,30 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: login-app
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: login-app
+    spec:
+      containers:
+      - name: login-app
+        image: IMAGE  
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: login-service
+  labels:
+    app: login-service
+spec:
+  type: NodePort
+  ports:
+    - port: 8080
+      nodePort: 32423
+  selector:
+    app: login-app

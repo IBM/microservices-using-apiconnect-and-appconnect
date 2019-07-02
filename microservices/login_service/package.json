@@ -1,0 +1,12 @@
+{
+  "name": "login",
+  "private": true,
+  "version": "0.0.1",
+  "description": "Login application",
+  "author": "Shikha Maheshwari <shikha.mah@in.ibm.com>",
+  "dependencies": {
+    "body-parser": "*",
+    "express": "^4.16.4",
+    "mongodb": "^3.2.5"
+  }
+}

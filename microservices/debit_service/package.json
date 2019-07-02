@@ -1,0 +1,12 @@
+{
+  "name": "debit_account",
+  "private": true,
+  "version": "0.0.1",
+  "description": "Debit account application",
+  "author": "Shikha Maheshwari <shikha.mah@in.ibm.com>",
+  "dependencies": {
+    "body-parser": "*",
+    "express": "^4.16.4",
+    "mongo": "^0.1.0"
+  }
+}
