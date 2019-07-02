@@ -26,6 +26,7 @@ Follow these steps to setup and run this code pattern. The steps are described i
    ```
    git clone https://github.com/IBM/microservices-using-apiconnect-and-appconnect.git
    ```
+   
 ## 2. Create IBM Cloud Services
 
 **Create IBM Kubernetes Service**
@@ -35,6 +36,8 @@ Create a Kubernetes cluster with [Kubernetes Service](https://cloud.ibm.com/cont
   ![](images/create_service.png)
 
   > Note: It can take up to 15-20 minutes for the cluster to be set up and provisioned.
+  
+  
 
 ## 5. Setup environment for Kubernetes CLI
 
@@ -55,6 +58,7 @@ Create a Kubernetes cluster with [Kubernetes Service](https://cloud.ibm.com/cont
     ```
 
  **Get the public IP for Kubernetes Cluster**
+ 
  Once cluster is up and running then find out the public IP of your cluster. It will be required for further steps.
 
   * Go to `IBM Cloud Dashboard -> Kubernetes Cluster -> <your cluster>`. It gives you details of the cluster.
@@ -93,6 +97,7 @@ As explained in step xx, we are creating login, bank account management, credit 
 Perform the following steps to deploy microservices.
 
 **Update MongoDB Connection String**
+
 Prepare connection url as explained in step 6. Then execute the following commands to update mongo db connection URL in app.js of all four microservices. 
 
 ```
@@ -102,6 +107,7 @@ Prepare connection url as explained in step 6. Then execute the following comman
    sed -i '' s#CONNECTION_URL#x.x.x.x:port# debit_service/app.js
    sed -i '' s#CONNECTION_URL#x.x.x.x:port# credit_service/app.js   
 ```
+
 **Prepare deploy target**
 
 All four docker images needs to be pushed to your docker image registry on IBM Cloud. You need to set the correct deploy target. Depending on the region you have created your cluster in, your URL will be in the following format:
@@ -149,11 +155,17 @@ $ kubectl get services|grep login
 login-service   NodePort    172.21.113.169   <none>        8080:32423/TCP    31s
 ```
 
+Need to repeat the same for all other microservices.
+
 **Deploy account_management service**
-initialize DB - accountdetails
+
+Following are the steps for account_management service.
+
 ```
   cd account_management
   $ ibmcloud cr build -t <DEPLOY_TARGET> .
+  
+  $ sed -i '' s#IMAGE#<DEPLOY_TARGET># deploy.yaml
   $ kubectl create -f deploy.yaml 
 
   $ kubectl get services | grep acc
@@ -161,10 +173,14 @@ initialize DB - accountdetails
 ```
 
 **Deploy Debit service**
-initialize DB - transaction log
+
+Following are the steps for debit account service.
+
 ```
   cd debit_service
   $ ibmcloud cr build -t <DEPLOY_TARGET> .
+  
+  $ sed -i '' s#IMAGE#<DEPLOY_TARGET># deploy.yaml
   $ kubectl create -f deploy.yaml 
 
   $ kubectl get services |grep debit
@@ -172,9 +188,14 @@ initialize DB - transaction log
 ```
 
 **Deploy Credit service**
+
+Following are the steps for credit account service.
+
 ```
   cd credit_service
   $ ibmcloud cr build -t <DEPLOY_TARGET> .
+  
+  $ sed -i '' s#IMAGE#<DEPLOY_TARGET># deploy.yaml
   $ kubectl create -f deploy.yaml 
 
   $ kubectl get services|grep credit
