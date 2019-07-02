@@ -67,7 +67,7 @@ Create a Kubernetes cluster with [Kubernetes Service](https://cloud.ibm.com/cont
 
 ## 6. Deploy Mongo DB
 
-In this pattern, mongo db will be deployed in a container. Perform the following steps to deploy Mongo DB in container.
+In this pattern, mongo db will be deployed in a container and will be used by all the microservices. Perform the following steps to deploy Mongo DB in a container.
 
 ```
    $ cd mongodb
@@ -84,21 +84,65 @@ After deployment, the status can be checked as:
    mongo        NodePort    172.21.84.39   <none>        27017:32643/TCP   11m
 ```
 
+The hostname and port to connect to mongodb will be `<public_ip_of_cluster>:<mongo_service_port>`. The mongo_service_port in this case, is 32643 (as shown in the above command).
+
 ## 7. Deploy Microservices
 
-As explained in step xx, we are creating login, bank account management, credit and debit functionality as microservices. User credentials and bank account details will be pre-defined in Mongo DB. MongoDB deployed in a container is used by all the microservices.
+As explained in step xx, we are creating login, bank account management, credit account and debit account functionality as microservices. Some user credentials and a few bank account details are pre-defined in Mongo DB. 
 
 Perform the following steps to deploy microservices.
 
-Update Cluster Public IP and Mongo Container service port : Execute the following command to update mongo db connection string in app.js related to all services.
+**Update MongoDB Connection String**
+Prepare connection url as explained in step 6. Then execute the following commands to update mongo db connection URL in app.js of all four microservices. 
 
-sed command
+```
+   cd Microservices
+   sed -i '' s#CONNECTION_URL#x.x.x.x:port# login_service/app.js
+   sed -i '' s#CONNECTION_URL#x.x.x.x:port# account_management/app.js
+   sed -i '' s#CONNECTION_URL#x.x.x.x:port# debit_service/app.js
+   sed -i '' s#CONNECTION_URL#x.x.x.x:port# credit_service/app.js   
+```
+**Prepare deploy target**
+
+All four docker images needs to be pushed to your docker image registry on IBM Cloud. You need to set the correct deploy target. Depending on the region you have created your cluster in, your URL will be in the following format:
+
+```
+   <REGION_ABBREVIATION>.icr.io/<YOUR_NAMESPACE>/<YOUR_IMAGE_NAME>:<VERSION>
+```
+
+The following command tells you the Registry API endpoint for your cluster. You can get region abbreviation from the output.
+
+```
+   ibmcloud cr api
+```
+
+To get namespace use the following command:
+```
+   ibmcloud cr namespaces
+```
+
+For example, to deploy the login microservice to my docker image registry in the US-South region, my deploy_target will be:
+```
+   us.icr.io/test_s1/login_app:v1.0
+```
 
 **Deploy login microservice**
-initialize DB - login
+
+Execute the following steps.
+
 ```
 $ cd login_service
-$ ibmcloud cr build -t us.icr.io/test_s1/login_app:v1.4 .
+```
+Build dockerfile and push the image to registry.
+
+```
+$ ibmcloud cr build -t <DEPLOY_TARGET> .
+```
+
+Update image location(deploy target) in `deploy.yaml`.
+
+```
+$ sed -i '' s#IMAGE#<DEPLOY_TARGET># deploy.yaml
 $ kubectl create -f deploy.yaml 
 
 $ kubectl get services|grep login
@@ -109,7 +153,7 @@ login-service   NodePort    172.21.113.169   <none>        8080:32423/TCP    31s
 initialize DB - accountdetails
 ```
   cd account_management
-  $ ibmcloud cr build -t us.icr.io/test_s1/account_details_app:v1.1 .
+  $ ibmcloud cr build -t <DEPLOY_TARGET> .
   $ kubectl create -f deploy.yaml 
 
   $ kubectl get services | grep acc
@@ -120,7 +164,7 @@ initialize DB - accountdetails
 initialize DB - transaction log
 ```
   cd debit_service
-  $ ibmcloud cr build -t us.icr.io/test_s1/debit_account_app:v1.2 .
+  $ ibmcloud cr build -t <DEPLOY_TARGET> .
   $ kubectl create -f deploy.yaml 
 
   $ kubectl get services |grep debit
@@ -130,7 +174,7 @@ initialize DB - transaction log
 **Deploy Credit service**
 ```
   cd credit_service
-  $ ibmcloud cr build -t us.icr.io/test_s1/credit_account_app:v1.4 .
+  $ ibmcloud cr build -t <DEPLOY_TARGET> .
   $ kubectl create -f deploy.yaml 
 
   $ kubectl get services|grep credit
