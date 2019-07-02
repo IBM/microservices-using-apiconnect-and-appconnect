@@ -44,7 +44,7 @@ Create a Kubernetes cluster with [Kubernetes Service](https://cloud.ibm.com/cont
     
   * Once your cluster is ready, open the access tab `IBM Cloud Dashboard -> Kubernetes Cluster -> <your cluster> -> Access` as shown in snapshot.
 
-    ![](images/gain-access-to-cluster.png)
+    ![](images/access-to-cluster.png)
     
     Perform the steps provided under this section.
     
