@@ -30,7 +30,7 @@ Follow these steps to setup and run this code pattern. The steps are described i
 
 **Create IBM Kubernetes Service**
 
-Create a Kubernetes cluster with [IBM Cloud Kubernetes Service](https://cloud.ibm.com/containers-kubernetes/catalog/cluster) using GUI. This pattern uses the _free cluster_.
+Create a Kubernetes cluster with [Kubernetes Service](https://cloud.ibm.com/containers-kubernetes/catalog/cluster) using IBM Cloud Dashboard. This pattern uses the _free cluster_.
 
   ![](images/create_service.png)
 
