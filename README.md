@@ -24,25 +24,24 @@ Follow these steps to setup and run this code pattern. The steps are described i
 
 - Clone the repo using the below command.
    ```
-   git clone https://github.com/IBM/ngo-collaboration-using-blockchain
+   git clone https://github.com/IBM/microservices-using-apiconnect-and-appconnect.git
    ```
 ## 2. Create IBM Cloud Services
 
 **Create IBM Kubernetes Service**
 Create a Kubernetes cluster with [IBM Cloud Kubernetes Service](https://cloud.ibm.com/containers-kubernetes/catalog/cluster) using GUI. This pattern uses the _free cluster_.
 
-  ![](images/create-service.png)
+  ![](images/create_service.png)
 
   > Note: It can take up to 15-20 minutes for the cluster to be set up and provisioned.
 
 ## 5. Setup environment for Kubernetes CLI
 
-  * Check the status of your cluster `IBM Cloud Dashboard -> <your cluster> -> Worker Nodes`. If status is not `normal`, then
-    you need to wait for some more time to proceed further.
+  * Check the status of your cluster `IBM Cloud Dashboard -> Kubernetes Cluster -> <your cluster>`. If status is not `Normal`, then you need to wait for some more time to proceed further.
 
     ![](images/cluster-status.png)
     
-  * Once your cluster is ready, open the access tab `IBM Cloud Dashboard -> <your cluster> -> Access` as shown in snapshot.
+  * Once your cluster is ready, open the access tab `IBM Cloud Dashboard -> Kubernetes Cluster -> <your cluster> -> Access` as shown in snapshot.
 
     ![](images/gain-access-to-cluster.png)
     
@@ -59,9 +58,7 @@ Create a Kubernetes cluster with [IBM Cloud Kubernetes Service](https://cloud.ib
  **Get the public IP for Kubernetes Cluster**
  Once cluster is up and running then find out the public IP of your cluster. It will be required for further steps.
 
-  * Go to IBM Cloud Dashboard.
-
-  * Click on your Kubernetes Cluster under `Clusters` section on Dashboard. It gives you details of the cluster.
+  * Go to `IBM Cloud Dashboard -> Kubernetes Cluster -> <your cluster>`. It gives you details of the cluster.
 
   * Access `Worker Nodes` tab, it will show you the public IP of your cluster as shown in below screenshot.
 
