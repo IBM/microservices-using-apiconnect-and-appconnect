@@ -39,8 +39,6 @@ Create a Kubernetes cluster with [Kubernetes Service](https://cloud.ibm.com/cont
 ## 5. Setup environment for Kubernetes CLI
 
   * Check the status of your cluster `IBM Cloud Dashboard -> Kubernetes Cluster -> <your cluster>`. If status is not `Normal`, then you need to wait for some more time to proceed further.
-
-    ![](images/cluster-status.png)
     
   * Once your cluster is ready, open the access tab `IBM Cloud Dashboard -> Kubernetes Cluster -> <your cluster> -> Access` as shown in snapshot.
 
