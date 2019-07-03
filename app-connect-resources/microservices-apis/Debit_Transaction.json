@@ -1,0 +1,80 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Debit Transaction",
+    "description": "Debit an account",
+    "version": "1.0.0"
+  },
+  "host": "184.172.250.226:32425",
+  "basePath": "/",
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/debit_account": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Debit account",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/debit_input"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/debit_output"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "debit_input": {
+      "type": "object",
+      "properties": {
+        "source_accountID": {
+          "type": "string"
+        },
+        "amount_to_transfer": {
+          "type": "integer"
+        },
+        "transfer_type": {
+          "type": "string"
+        },
+        "remarks": {
+          "type": "string"
+        }
+      }
+    },
+    "debit_output": {
+      "type": "object",
+      "properties": {
+        "responseCode": {
+          "type": "integer"
+        },
+        "message": {
+          "type": "string"
+        },
+        "transactionID": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
