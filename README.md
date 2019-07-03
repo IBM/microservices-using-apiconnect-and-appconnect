@@ -37,7 +37,60 @@ Create a Kubernetes cluster with [Kubernetes Service](https://cloud.ibm.com/cont
 
   > Note: It can take up to 15-20 minutes for the cluster to be set up and provisioned.
   
-  
+## 4. Configure App Connect
+
+### Create App Connect service instance
+- If you do not already have an instance of App Connect then [Create an instance of IBM App Connect](https://cloud.ibm.com/catalog/services/app-connect). Ensure `lite` plan is selected. Click `Create`. A new instance of IBM App Connect should be created.
+
+### Import API interfaces and flow
+- On IBM Cloud dashboard, click the App Connect service instance created in earlier step and will be be listed under `Cloud Foundry Services`
+- Click `Launch App Connect` button on the App Connect Service home page.
+
+#### Add APIs to Catalog
+The [OpenAPI Specification](https://github.com/OAI/OpenAPI-Specification), previously known as the Swagger Specification, is a definition format for describing REST APIs. You can import OpenAPI documents that contain API definitions into IBM App Connect. Each imported document is added as an API to the App Connect catalog of applications and APIs, and can be used to call the API from a flow.
+
+For the microservices used in this code pattern, the REST APIs definition files are available under `resources/ms-swagger` folder. 
+
+![Add API to Catalog](./images/add-api-to-catalog.gif)
+- On App Connect top menu, click `Catalog` -> `APIs` -> `Add your API or web service now` -> `Add an OpenAPI definition, WSDL or ZIP`
+- Browse to `resources/ms-swagger` folder and select `Account_Check.json` file.
+- Specify the name to be `Account_Check`. While any unique name can be given to APIs, we will maintain the names specified here so that the flow that we will import in later steps work with the APIs, without error.
+- Optional. Add a description that summarizes the function of the API.
+- Click `Add`.
+> Note that the hostname and port are overwritten while connecting to an account.
+- Similarly add APIs `Debit_Transaction` (name should be `Debit_Transaction`) and `Credit_Transaction` (name should be `Credit_Transaction`).
+- As a sanity check, verify that the microservices are working fine using a REST client like postman.
+
+#### Import flow
+- Click `Import Flow` button. The flow should be imported now.
+- On the top right corner of the browser page, click the `New` button and select `Import Flow...`.
+![Import Flow](./images/import-flow.gif)
+- Click "Add a YAML file". Browse the cloned repository and select `Flow.yaml` file in `resources` folder. 
+![Import Flow Check](./images/import-flow-check.gif)
+- When imported click on `Operations` tab -> `Edit Flow` button and verify that there are no visible error indicator.
+- You have imported the flow.
+
+#### Test the imported flow
+- Now that you have imported the flow, you need to test it.
+- Navigate to App Connect dashboard and start the flow.
+![Flow Start](./images/flow-start.png)
+- Click on the flow on App Connect Dashboard.
+- Click `Manage` tab.
+- Scroll to the bottom of the page to `Sharing Outside of Cloud Foundry organization` section. Click `Create API Key`.
+- Enter a name under `Descriptive name` field and click `Create`.
+- `API Portal Link` is populated with a link. Click on that link.
+- On the right hand side panel, click on `Try it` link. 
+- Under `Parameters -> Data`, enter the input data for rest service and click `Call Operation`. 
+- Scroll a little down and you should see response from the service. Response Code should be `200 OK`.
+![Flow Test](./images/flow-test.gif)
+
+#### Export the App Connect Flow Rest interface
+- Navigate to App Connect dashboard.
+- Click on the flow on App Connect Dashboard.
+- Click `Manage` tab.
+- Scroll a little until you find `API Info` section.
+- Click `API Definition` that is available on the right side of the page, to see the options. Click `Export JSON File` and save the json file. This file is needed by API Connect to invoke requests to App Connect flows.
+![Export API Defn JSON](./images/api-defn-export.png)
 
 ## 5. Setup environment for Kubernetes CLI
 
@@ -205,6 +258,13 @@ Following are the steps for credit account service.
 All services should be up and running.
 
 ## Learn More
+
+### App Connect resources links for basic familiarty
+- Introduction to App Connect on Cloud https://developer.ibm.com/integration/docs/app-connect/
+- OpenAPI APIs https://developer.ibm.com/integration/docs/app-connect/how-to-guides-for-apps/use-ibm-app-connect-openapi/
+- Creating flows for APIs https://developer.ibm.com/integration/docs/app-connect/tutorials-for-ibm-app-connect/creating-flows-api/
+- Calling API in a flow https://developer.ibm.com/integration/docs/app-connect/creating-using-apis/calling-apis-flow/
+- Toolbox flow https://developer.ibm.com/integration/docs/app-connect/toolbox-utilities/adding-conditional-logic-flow/
 
 <!-- keep this -->
 ## License
