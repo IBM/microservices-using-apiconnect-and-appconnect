@@ -1,0 +1,640 @@
+$integration: 'http://ibm.com/appconnect/integration/v2/integrationFile'
+integration:
+  type: api
+  trigger-interfaces:
+    trigger-interface-1:
+      triggers:
+        createFund_Transfer:
+          assembly:
+            $ref: '#/integration/assemblies/assembly-1'
+          input-context:
+            data: Fund_Transfer
+          output-context:
+            data: Fund_Transfer
+      options:
+        resources:
+          - business-object: Fund_Transfer
+            model:
+              $ref: '#/models/Fund_Transfer'
+            triggers:
+              create: createFund_Transfer
+      type: api-trigger
+  action-interfaces:
+    action-interface-1:
+      type: api-action
+      business-object: post_check_accounts_model
+      connector-type: UDA.fsyf8ptni.openapi.Account_Check
+      account-name: Account 1
+      actions:
+        post_check_accounts: {}
+    action-interface-5:
+      type: api-action
+      business-object: post_debit_account_model
+      connector-type: UDA.fsyf8ptni.openapi.Debit_Transaction
+      account-name: Account 1
+      actions:
+        post_debit_account: {}
+    action-interface-2:
+      type: api-action
+      business-object: post_credit_account_model
+      connector-type: UDA.fsyf8ptni.openapi.Credit_Transaction
+      account-name: Account 1
+      actions:
+        post_credit_account: {}
+    action-interface-4:
+      type: api-action
+      business-object: post_credit_account_model
+      connector-type: UDA.fsyf8ptni.openapi.Credit_Transaction
+      account-name: Account 1
+      actions:
+        post_credit_account: {}
+  assemblies:
+    assembly-1:
+      assembly:
+        execute:
+          - custom-action:
+              name: Account_Check POST check_accounts
+              target:
+                $ref: '#/integration/action-interfaces/action-interface-1'
+              action: post_check_accounts
+              map:
+                mappings:
+                  - body:
+                      mappings:
+                        - amount_to_transfer:
+                            expression: '$Request.amount_to_transfer '
+                        - source_accountID:
+                            template: '{{$Request.source_accountID}}'
+                        - target_accountID:
+                            template: '{{$Request.target_accountID}}'
+                $map: 'http://ibm.com/appconnect/map/v1'
+                input:
+                  - variable: Request
+                    $ref: '#/trigger/payload'
+          - if:
+              name: If
+              input:
+                - variable: Request
+                  $ref: '#/trigger/payload'
+                - variable: AccountCheckPOSTcheckaccounts
+                  $ref: >-
+                    #/node-output/Account_Check POST
+                    check_accounts/response/payload
+                - variable: AccountCheckPOSTcheckaccountsMetadata
+                  $ref: '#/node-output/Account_Check POST check_accounts/response'
+              branch:
+                - condition:
+                    and:
+                      - '{{$AccountCheckPOSTcheckaccountsMetadata."status-code"}}': '200'
+                      - '{{$AccountCheckPOSTcheckaccounts.response."200".responseCode}}': '0'
+                  execute:
+                    - custom-action:
+                        name: Debit_Transaction POST debit_account 2
+                        target:
+                          $ref: '#/integration/action-interfaces/action-interface-5'
+                        action: post_debit_account
+                        map:
+                          mappings:
+                            - body:
+                                mappings:
+                                  - amount_to_transfer:
+                                      expression: '$Request.amount_to_transfer '
+                                  - remarks:
+                                      template: '{{$Request.remarks}}'
+                                  - source_accountID:
+                                      template: '{{$Request.source_accountID}}'
+                                  - transfer_type:
+                                      template: '{{$Request.transfer_type}}'
+                          $map: 'http://ibm.com/appconnect/map/v1'
+                          input:
+                            - variable: Request
+                              $ref: '#/trigger/payload'
+                            - variable: AccountCheckPOSTcheckaccounts
+                              $ref: >-
+                                #/node-output/Account_Check POST
+                                check_accounts/response/payload
+                            - variable: AccountCheckPOSTcheckaccountsMetadata
+                              $ref: >-
+                                #/node-output/Account_Check POST
+                                check_accounts/response
+                    - if:
+                        name: If 2
+                        input:
+                          - variable: Request
+                            $ref: '#/trigger/payload'
+                          - variable: DebitTransactionPOSTdebitaccount2
+                            $ref: >-
+                              #/block/If/node-output/Debit_Transaction POST
+                              debit_account 2/response/payload
+                          - variable: DebitTransactionPOSTdebitaccount2Metadata
+                            $ref: >-
+                              #/block/If/node-output/Debit_Transaction POST
+                              debit_account 2/response
+                          - variable: AccountCheckPOSTcheckaccounts
+                            $ref: >-
+                              #/node-output/Account_Check POST
+                              check_accounts/response/payload
+                          - variable: AccountCheckPOSTcheckaccountsMetadata
+                            $ref: >-
+                              #/node-output/Account_Check POST
+                              check_accounts/response
+                        branch:
+                          - condition:
+                              and:
+                                - '{{$DebitTransactionPOSTdebitaccount2Metadata."status-code"}}': '200'
+                                - '{{$DebitTransactionPOSTdebitaccount2.response."200".responseCode}}': '0'
+                            execute:
+                              - custom-action:
+                                  name: Credit_Transaction POST credit_account
+                                  target:
+                                    $ref: >-
+                                      #/integration/action-interfaces/action-interface-2
+                                  action: post_credit_account
+                                  map:
+                                    mappings:
+                                      - body:
+                                          mappings:
+                                            - amount_to_transfer:
+                                                expression: '$Request.amount_to_transfer '
+                                            - target_accountID:
+                                                template: '{{$Request.target_accountID}}'
+                                            - transactionID:
+                                                template: >-
+                                                  {{$DebitTransactionPOSTdebitaccount2.response."200".transactionID}}
+                                    $map: 'http://ibm.com/appconnect/map/v1'
+                                    input:
+                                      - variable: Request
+                                        $ref: '#/trigger/payload'
+                                      - variable: DebitTransactionPOSTdebitaccount2
+                                        $ref: >-
+                                          #/block/If/node-output/Debit_Transaction POST
+                                          debit_account 2/response/payload
+                                      - variable: DebitTransactionPOSTdebitaccount2Metadata
+                                        $ref: >-
+                                          #/block/If/node-output/Debit_Transaction POST
+                                          debit_account 2/response
+                                      - variable: AccountCheckPOSTcheckaccounts
+                                        $ref: >-
+                                          #/node-output/Account_Check POST
+                                          check_accounts/response/payload
+                                      - variable: AccountCheckPOSTcheckaccountsMetadata
+                                        $ref: >-
+                                          #/node-output/Account_Check POST
+                                          check_accounts/response
+                              - if:
+                                  name: If 3
+                                  input:
+                                    - variable: Request
+                                      $ref: '#/trigger/payload'
+                                    - variable: CreditTransactionPOSTcreditaccount
+                                      $ref: >-
+                                        #/block/If 2/node-output/Credit_Transaction POST
+                                        credit_account/response/payload
+                                    - variable: CreditTransactionPOSTcreditaccountMetadata
+                                      $ref: >-
+                                        #/block/If 2/node-output/Credit_Transaction POST
+                                        credit_account/response
+                                    - variable: DebitTransactionPOSTdebitaccount2
+                                      $ref: >-
+                                        #/block/If/node-output/Debit_Transaction POST
+                                        debit_account 2/response/payload
+                                    - variable: DebitTransactionPOSTdebitaccount2Metadata
+                                      $ref: >-
+                                        #/block/If/node-output/Debit_Transaction POST
+                                        debit_account 2/response
+                                    - variable: AccountCheckPOSTcheckaccounts
+                                      $ref: >-
+                                        #/node-output/Account_Check POST
+                                        check_accounts/response/payload
+                                    - variable: AccountCheckPOSTcheckaccountsMetadata
+                                      $ref: >-
+                                        #/node-output/Account_Check POST
+                                        check_accounts/response
+                                  branch:
+                                    - condition:
+                                        and:
+                                          - '{{$CreditTransactionPOSTcreditaccountMetadata."status-code"}}': '200'
+                                          - '{{$CreditTransactionPOSTcreditaccount.response."200".responseCode}}': '0'
+                                      execute: []
+                                      map:
+                                        $map: 'http://ibm.com/appconnect/map/v1'
+                                        input:
+                                          - variable: Request
+                                            $ref: '#/trigger/payload'
+                                          - variable: CreditTransactionPOSTcreditaccount
+                                            $ref: >-
+                                              #/block/If 2/node-output/Credit_Transaction POST
+                                              credit_account/response/payload
+                                          - variable: CreditTransactionPOSTcreditaccountMetadata
+                                            $ref: >-
+                                              #/block/If 2/node-output/Credit_Transaction POST
+                                              credit_account/response
+                                          - variable: DebitTransactionPOSTdebitaccount2
+                                            $ref: >-
+                                              #/block/If/node-output/Debit_Transaction POST
+                                              debit_account 2/response/payload
+                                          - variable: DebitTransactionPOSTdebitaccount2Metadata
+                                            $ref: >-
+                                              #/block/If/node-output/Debit_Transaction POST
+                                              debit_account 2/response
+                                          - variable: AccountCheckPOSTcheckaccounts
+                                            $ref: >-
+                                              #/node-output/Account_Check POST
+                                              check_accounts/response/payload
+                                          - variable: AccountCheckPOSTcheckaccountsMetadata
+                                            $ref: >-
+                                              #/node-output/Account_Check POST
+                                              check_accounts/response
+                                        mappings:
+                                          - ceditTransactionID:
+                                              template: >-
+                                                {{$CreditTransactionPOSTcreditaccount.response."200".transactionID}}
+                                          - creditResponseCode:
+                                              template: >-
+                                                {{$CreditTransactionPOSTcreditaccount.response."200".responseCode}}
+                                          - creditResponseMessage:
+                                              template: >-
+                                                {{$CreditTransactionPOSTcreditaccount.response."200".message}}
+                                    - condition:
+                                        '{{$CreditTransactionPOSTcreditaccount.response."200".responseCode}}': '1'
+                                      execute:
+                                        - custom-action:
+                                            name: Credit_Transaction POST credit_account 3
+                                            target:
+                                              $ref: >-
+                                                #/integration/action-interfaces/action-interface-4
+                                            action: post_credit_account
+                                            map:
+                                              mappings:
+                                                - body:
+                                                    mappings:
+                                                      - amount_to_transfer:
+                                                          expression: '$Request.amount_to_transfer '
+                                                      - target_accountID:
+                                                          template: '{{$Request.source_accountID}}'
+                                              $map: 'http://ibm.com/appconnect/map/v1'
+                                              input:
+                                                - variable: Request
+                                                  $ref: '#/trigger/payload'
+                                                - variable: CreditTransactionPOSTcreditaccount
+                                                  $ref: >-
+                                                    #/block/If 2/node-output/Credit_Transaction POST
+                                                    credit_account/response/payload
+                                                - variable: CreditTransactionPOSTcreditaccountMetadata
+                                                  $ref: >-
+                                                    #/block/If 2/node-output/Credit_Transaction POST
+                                                    credit_account/response
+                                                - variable: DebitTransactionPOSTdebitaccount2
+                                                  $ref: >-
+                                                    #/block/If/node-output/Debit_Transaction POST
+                                                    debit_account 2/response/payload
+                                                - variable: DebitTransactionPOSTdebitaccount2Metadata
+                                                  $ref: >-
+                                                    #/block/If/node-output/Debit_Transaction POST
+                                                    debit_account 2/response
+                                                - variable: AccountCheckPOSTcheckaccounts
+                                                  $ref: >-
+                                                    #/node-output/Account_Check POST
+                                                    check_accounts/response/payload
+                                                - variable: AccountCheckPOSTcheckaccountsMetadata
+                                                  $ref: >-
+                                                    #/node-output/Account_Check POST
+                                                    check_accounts/response
+                                      map:
+                                        $map: 'http://ibm.com/appconnect/map/v1'
+                                        input:
+                                          - variable: Request
+                                            $ref: '#/trigger/payload'
+                                          - variable: CreditTransactionPOSTcreditaccount3
+                                            $ref: >-
+                                              #/block/If 3/node-output/Credit_Transaction POST
+                                              credit_account 3/response/payload
+                                          - variable: CreditTransactionPOSTcreditaccount3Metadata
+                                            $ref: >-
+                                              #/block/If 3/node-output/Credit_Transaction POST
+                                              credit_account 3/response
+                                          - variable: CreditTransactionPOSTcreditaccount
+                                            $ref: >-
+                                              #/block/If 2/node-output/Credit_Transaction POST
+                                              credit_account/response/payload
+                                          - variable: CreditTransactionPOSTcreditaccountMetadata
+                                            $ref: >-
+                                              #/block/If 2/node-output/Credit_Transaction POST
+                                              credit_account/response
+                                          - variable: DebitTransactionPOSTdebitaccount2
+                                            $ref: >-
+                                              #/block/If/node-output/Debit_Transaction POST
+                                              debit_account 2/response/payload
+                                          - variable: DebitTransactionPOSTdebitaccount2Metadata
+                                            $ref: >-
+                                              #/block/If/node-output/Debit_Transaction POST
+                                              debit_account 2/response
+                                          - variable: AccountCheckPOSTcheckaccounts
+                                            $ref: >-
+                                              #/node-output/Account_Check POST
+                                              check_accounts/response/payload
+                                          - variable: AccountCheckPOSTcheckaccountsMetadata
+                                            $ref: >-
+                                              #/node-output/Account_Check POST
+                                              check_accounts/response
+                                        mappings:
+                                          - ceditTransactionID:
+                                              template: >-
+                                                {{$CreditTransactionPOSTcreditaccount3.response."200".transactionID}}
+                                          - creditResponseCode:
+                                              template: >-
+                                                {{$CreditTransactionPOSTcreditaccount3.response."200".responseCode}}
+                                          - creditResponseMessage:
+                                              template: >-
+                                                {{$CreditTransactionPOSTcreditaccount3.response."200".message}}
+                                  else:
+                                    execute: []
+                                    completion-action:
+                                      terminate:
+                                        error:
+                                          input:
+                                            - variable: Request
+                                              $ref: '#/trigger/payload'
+                                            - variable: CreditTransactionPOSTcreditaccount
+                                              $ref: >-
+                                                #/block/If 2/node-output/Credit_Transaction POST
+                                                credit_account/response/payload
+                                            - variable: CreditTransactionPOSTcreditaccountMetadata
+                                              $ref: >-
+                                                #/block/If 2/node-output/Credit_Transaction POST
+                                                credit_account/response
+                                            - variable: DebitTransactionPOSTdebitaccount2
+                                              $ref: >-
+                                                #/block/If/node-output/Debit_Transaction POST
+                                                debit_account 2/response/payload
+                                            - variable: DebitTransactionPOSTdebitaccount2Metadata
+                                              $ref: >-
+                                                #/block/If/node-output/Debit_Transaction POST
+                                                debit_account 2/response
+                                            - variable: AccountCheckPOSTcheckaccounts
+                                              $ref: >-
+                                                #/node-output/Account_Check POST
+                                                check_accounts/response/payload
+                                            - variable: AccountCheckPOSTcheckaccountsMetadata
+                                              $ref: >-
+                                                #/node-output/Account_Check POST
+                                                check_accounts/response
+                                          message: >-
+                                            Unknown error occurred. Check log for
+                                            more details
+                                          status-code: 400
+                                  output-schema:
+                                    required: []
+                                    properties:
+                                      ceditTransactionID:
+                                        type: string
+                                        title: ceditTransactionID
+                                      creditResponseCode:
+                                        type: string
+                                        title: creditResponseCode
+                                      creditResponseMessage:
+                                        type: string
+                                        title: creditResponseMessage
+                                    title: Output Schema
+                                    type: object
+                            map:
+                              $map: 'http://ibm.com/appconnect/map/v1'
+                              input:
+                                - variable: Request
+                                  $ref: '#/trigger/payload'
+                                - variable: CreditTransactionPOSTcreditaccount
+                                  $ref: >-
+                                    #/block/If 2/node-output/Credit_Transaction POST
+                                    credit_account/response/payload
+                                - variable: CreditTransactionPOSTcreditaccountMetadata
+                                  $ref: >-
+                                    #/block/If 2/node-output/Credit_Transaction POST
+                                    credit_account/response
+                                - variable: If3
+                                  $ref: >-
+                                    #/block/If 2/node-output/If
+                                    3/response/payload
+                                - variable: DebitTransactionPOSTdebitaccount2
+                                  $ref: >-
+                                    #/block/If/node-output/Debit_Transaction POST
+                                    debit_account 2/response/payload
+                                - variable: DebitTransactionPOSTdebitaccount2Metadata
+                                  $ref: >-
+                                    #/block/If/node-output/Debit_Transaction POST
+                                    debit_account 2/response
+                                - variable: AccountCheckPOSTcheckaccounts
+                                  $ref: >-
+                                    #/node-output/Account_Check POST
+                                    check_accounts/response/payload
+                                - variable: AccountCheckPOSTcheckaccountsMetadata
+                                  $ref: >-
+                                    #/node-output/Account_Check POST
+                                    check_accounts/response
+                              mappings:
+                                - debitResponseCode:
+                                    template: '{{$If3.creditResponseCode}}'
+                                - debitResponseMessage:
+                                    template: '{{$If3.creditResponseMessage}}'
+                                - debitTransactionID:
+                                    template: '{{$If3.ceditTransactionID}}'
+                        else:
+                          execute: []
+                          completion-action:
+                            terminate:
+                              error:
+                                input:
+                                  - variable: Request
+                                    $ref: '#/trigger/payload'
+                                  - variable: DebitTransactionPOSTdebitaccount2
+                                    $ref: >-
+                                      #/block/If/node-output/Debit_Transaction POST
+                                      debit_account 2/response/payload
+                                  - variable: DebitTransactionPOSTdebitaccount2Metadata
+                                    $ref: >-
+                                      #/block/If/node-output/Debit_Transaction POST
+                                      debit_account 2/response
+                                  - variable: AccountCheckPOSTcheckaccounts
+                                    $ref: >-
+                                      #/node-output/Account_Check POST
+                                      check_accounts/response/payload
+                                  - variable: AccountCheckPOSTcheckaccountsMetadata
+                                    $ref: >-
+                                      #/node-output/Account_Check POST
+                                      check_accounts/response
+                                message: >-
+                                  {{$DebitTransactionPOSTdebitaccount2.response."200".message}}
+                                status-code: 400
+                        output-schema:
+                          required: []
+                          properties:
+                            debitTransactionID:
+                              type: string
+                              title: debitTransactionID
+                            debitResponseCode:
+                              type: string
+                              title: debitResponseCode
+                            debitResponseMessage:
+                              type: string
+                              title: debitResponseMessage
+                          title: Output Schema
+                          type: object
+                  map:
+                    $map: 'http://ibm.com/appconnect/map/v1'
+                    input:
+                      - variable: Request
+                        $ref: '#/trigger/payload'
+                      - variable: DebitTransactionPOSTdebitaccount2
+                        $ref: >-
+                          #/block/If/node-output/Debit_Transaction POST debit_account
+                          2/response/payload
+                      - variable: DebitTransactionPOSTdebitaccount2Metadata
+                        $ref: >-
+                          #/block/If/node-output/Debit_Transaction POST debit_account
+                          2/response
+                      - variable: If2
+                        $ref: '#/block/If/node-output/If 2/response/payload'
+                      - variable: AccountCheckPOSTcheckaccounts
+                        $ref: >-
+                          #/node-output/Account_Check POST
+                          check_accounts/response/payload
+                      - variable: AccountCheckPOSTcheckaccountsMetadata
+                        $ref: >-
+                          #/node-output/Account_Check POST
+                          check_accounts/response
+                    mappings:
+                      - acCheckResponse:
+                          template: '{{$If2.debitResponseMessage}}'
+                      - acCheckResponseCode:
+                          template: '{{$If2.debitResponseCode}}'
+                      - acCheckTransactionID:
+                          template: '{{$If2.debitTransactionID}}'
+              else:
+                execute: []
+                completion-action:
+                  terminate:
+                    error:
+                      input:
+                        - variable: Request
+                          $ref: '#/trigger/payload'
+                        - variable: AccountCheckPOSTcheckaccounts
+                          $ref: >-
+                            #/node-output/Account_Check POST
+                            check_accounts/response/payload
+                        - variable: AccountCheckPOSTcheckaccountsMetadata
+                          $ref: >-
+                            #/node-output/Account_Check POST
+                            check_accounts/response
+                      message: >-
+                        {{$AccountCheckPOSTcheckaccounts.response."200".responseMsg}}{{$AccountCheckPOSTcheckaccounts.response."200".responseMsg}}
+                      status-code: 400
+              output-schema:
+                required: []
+                properties:
+                  acCheckTransactionID:
+                    type: string
+                    title: acCheckTransactionID
+                  acCheckResponseCode:
+                    type: string
+                    title: acCheckResponseCode
+                  acCheckResponse:
+                    type: string
+                    title: acCheckResponse
+                title: Output Schema
+                type: object
+          - response:
+              name: response-1
+              reply-maps:
+                - title: Fund_Transfer successfully created
+                  status-code: '200'
+                  map:
+                    $map: 'http://ibm.com/appconnect/map/v1'
+                    input:
+                      - variable: Request
+                        $ref: '#/trigger/payload'
+                      - variable: AccountCheckPOSTcheckaccounts
+                        $ref: >-
+                          #/node-output/Account_Check POST
+                          check_accounts/response/payload
+                      - variable: AccountCheckPOSTcheckaccountsMetadata
+                        $ref: >-
+                          #/node-output/Account_Check POST
+                          check_accounts/response
+                      - variable: If
+                        $ref: '#/node-output/If/response/payload'
+                    mappings:
+                      - amount_to_transfer:
+                          expression: '$Request.amount_to_transfer '
+                      - remarks:
+                          template: '{{$Request.remarks}}'
+                      - request_no:
+                          template: '{{$ceil($random() *100000000)}}'
+                      - responseCode:
+                          template: '{{$If.acCheckResponseCode}}'
+                      - responseMsg:
+                          template: '{{$If.acCheckResponse}}'
+                      - source_accountID:
+                          template: '{{$Request.source_accountID}}'
+                      - target_accountID:
+                          template: '{{$Request.target_accountID}}'
+                      - transactionID:
+                          template: '{{$If.acCheckTransactionID}}'
+                      - transfer_type:
+                          template: '{{$Request.transfer_type}}'
+                  input:
+                    - variable: Request
+                      $ref: '#/trigger/payload'
+                    - variable: AccountCheckPOSTcheckaccounts
+                      $ref: >-
+                        #/node-output/Account_Check POST
+                        check_accounts/response/payload
+                    - variable: AccountCheckPOSTcheckaccountsMetadata
+                      $ref: >-
+                        #/node-output/Account_Check POST
+                        check_accounts/response
+                    - variable: If
+                      $ref: '#/node-output/If/response/payload'
+  name: Fund Transfer
+models:
+  Fund_Transfer:
+    name: Fund_Transfer
+    properties:
+      request_no:
+        required: false
+        id: true
+        type: string
+      source_accountID:
+        required: false
+        id: false
+        type: string
+      target_accountID:
+        required: false
+        id: false
+        type: string
+      amount_to_transfer:
+        required: false
+        id: false
+        type: number
+      transfer_type:
+        required: false
+        id: false
+        type: string
+      remarks:
+        required: false
+        id: false
+        type: string
+      transactionID:
+        required: false
+        id: false
+        type: string
+      responseCode:
+        required: false
+        id: false
+        type: string
+      responseMsg:
+        required: false
+        id: false
+        type: string
+    plural: Fund_Transfer
+    description: ' '
+    operations:
+      create: '#/integration/assemblies/assembly-1'
