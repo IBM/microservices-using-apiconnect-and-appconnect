@@ -49,11 +49,11 @@ Create a Kubernetes cluster with [Kubernetes Service](https://cloud.ibm.com/cont
 #### Add APIs to Catalog
 The [OpenAPI Specification](https://github.com/OAI/OpenAPI-Specification), previously known as the Swagger Specification, is a definition format for describing REST APIs. You can import OpenAPI documents that contain API definitions into IBM App Connect. Each imported document is added as an API to the App Connect catalog of applications and APIs, and can be used to call the API from a flow.
 
-For the microservices used in this code pattern, the REST APIs definition files are available under `resources/microservices-apis` folder. 
+For the microservices used in this code pattern, the REST APIs definition files are available under `app-connect-resources/microservices-apis` folder. 
 
 ![Add API to Catalog](./images/add-api-to-catalog.gif)
 - On App Connect top menu, click `Catalog` -> `APIs` -> `Add your API or web service now` -> `Add an OpenAPI definition, WSDL or ZIP`
-- Browse to `resources/microservices-apis` folder and select `Account_Check.json` file.
+- Browse to `app-connect-resources/microservices-apis` folder and select `Account_Check.json` file.
 - Specify the name to be `Account_Check`. While any unique name can be given to APIs, we will maintain the names specified here so that the flow that we will import in later steps work with the APIs, without error.
 - Optional. Add a description that summarizes the function of the API.
 - Click `Add`.
@@ -65,7 +65,7 @@ For the microservices used in this code pattern, the REST APIs definition files 
 - Click `Import Flow` button. The flow should be imported now.
 - On the top right corner of the browser page, click the `New` button and select `Import Flow...`.
 ![Import Flow](./images/import-flow.gif)
-- Click "Add a YAML file". Browse the cloned repository and select `Flow.yaml` file in `resources` folder. 
+- Click "Add a YAML file". Browse the cloned repository and select `Flow.yaml` file in `app-connect-resources` folder. 
 ![Import Flow Check](./images/import-flow-check.gif)
 - When imported click on `Operations` tab -> `Edit Flow` button and verify that there are no visible error indicator.
 - You have imported the flow.
