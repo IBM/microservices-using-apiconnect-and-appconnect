@@ -13,7 +13,7 @@ Follow these steps to setup and run this code pattern. The steps are described i
 1. [Get the code](#1-get-the-code)
 2. [Create IBM Cloud Services](#2-create-ibm-cloud-services)
 3. Configure API Connect
-4. Configure App Connect
+4. [Configure App Connect](#4-configure-app-connect)
 5. Setup environment for Kubernetes CLI
 6. [Deploy Mongo DB](#6-deploy-mongo-db)
 7. [Deploy Microservices](#7-deploy-microservices)
