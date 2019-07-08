@@ -13,7 +13,7 @@ At the end of this code pattern, users will understand:
 
 # Flow
 
-![Flow Diagram](images/architecture.png)
+![Flow Diagram](images/Architecture.png)
 
 1. User logs-in to the client application.
 2. Login Request will go to API Connect.
