@@ -1,4 +1,19 @@
-# Microservices-using-apiconnect-and-appconnect
+# Build a secure microservices based application using API connect and App Connect
+
+
+There have been common requirements across clients regarding:
+
+* Providing OAuth based authorization security to microservices
+* Transaction flow support to microservices
+
+These requirements are primarily from the banking and financial services domain.
+In this code pattern, we demonstrate a solution to the above two requirements using IBM API Connect and App Connect.
+
+At the end of this code pattern, the user will understand:
+* Authentication and authorization using OAuth 2.0 public access code scheme in API Connect
+* A banking funds transfer functionality using App Connect
+* To build and deploy nodejs microservices on IBM Kubernetes Service
+* Integration of API Connect, App Connect, microservices using Node-RED
 
 # Flow
 
@@ -12,8 +27,8 @@ Follow these steps to setup and run this code pattern. The steps are described i
 
 1. [Get the code](#1-get-the-code)
 2. [Create IBM Cloud Services](#2-create-ibm-cloud-services)
-3. Configure API Connect
-4. [Configure App Connect](#4-configure-app-connect)
+3. [Configure App Connect](#3-configure-app-connect)
+4. [Configure API Connect]
 5. Setup environment for Kubernetes CLI
 6. [Deploy Mongo DB](#6-deploy-mongo-db)
 7. [Deploy Microservices](#7-deploy-microservices)
@@ -29,7 +44,7 @@ Follow these steps to setup and run this code pattern. The steps are described i
    
 ## 2. Create IBM Cloud Services
 
-**Create IBM Kubernetes Service**
+### Create IBM Kubernetes Service
 
 Create a Kubernetes cluster with [Kubernetes Service](https://cloud.ibm.com/containers-kubernetes/catalog/cluster) using IBM Cloud Dashboard. This pattern uses the _free cluster_.
 
@@ -37,11 +52,19 @@ Create a Kubernetes cluster with [Kubernetes Service](https://cloud.ibm.com/cont
 
   > Note: It can take up to 15-20 minutes for the cluster to be set up and provisioned.
   
-## 4. Configure App Connect
+### Create App Connect service instance
+
+Create an instance of [IBM App Connect](https://cloud.ibm.com/catalog/services/app-connect). Ensure `lite` plan is selected. Click `Create`. A new instance of IBM App Connect should be created.
+
+### Create API Connect service instance
+
+
+### Create Node-RED service instance
+
+  
+## 3. Configure App Connect
 Use App Connect to connect your different applications and make your business more efficient. Set up flows that define how data is moved from one application to one or more other applications. App Connect supports a range of skill levels and interfaces, giving you the flexibility to create integrations without writing a single line of code. You can use a web user interface or drop resources into a toolkit that gives a broader range of configuration options. Your entire organization can make smarter business decisions by providing rapid access, visibility, and control over data as it flows through your business applications and systems from a single place - App Connect. Find more App Connect resources in [Learn More](#app-connect-resources-links-for-basic-familiarty) section.
 
-### Create App Connect service instance
-- If you do not already have an instance of App Connect then [Create an instance of IBM App Connect](https://cloud.ibm.com/catalog/services/app-connect). Ensure `lite` plan is selected. Click `Create`. A new instance of IBM App Connect should be created.
 
 ### Import API interfaces and flow
 - On IBM Cloud dashboard, click the App Connect service instance created in earlier step and will be be listed under `Cloud Foundry Services`
@@ -92,6 +115,9 @@ For the microservices used in this code pattern, the REST APIs definition files 
 - Scroll a little until you find `API Info` section.
 - Click `API Definition` that is available on the right side of the page, to see the options. Click `Export JSON File` and save the json file. This file is needed by API Connect to invoke requests to App Connect flows.
 ![Export API Defn JSON](./images/api-defn-export.png)
+
+## 4. Configure API Connect
+
 
 ## 5. Setup environment for Kubernetes CLI
 
@@ -226,7 +252,7 @@ Following are the steps for account_management service.
   account-details-service   NodePort    172.21.166.106   <none>        8080:32424/TCP    33s
 ```
 
-**Deploy Debit service**
+**Deploy debit_account service**
 
 Following are the steps for debit account service.
 
@@ -241,7 +267,7 @@ Following are the steps for debit account service.
   debit-account-service     NodePort    172.21.138.208   <none>        8080:32425/TCP    16s
 ```
 
-**Deploy Credit service**
+**Deploy credit_account service**
 
 Following are the steps for credit account service.
 
