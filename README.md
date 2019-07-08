@@ -13,12 +13,12 @@ At the end of this code pattern, users will understand:
 
 # Flow
 
-![Flow Diagram](images/Architecture.png)
+![Flow Diagram](images/architecture.png)
 
 1. User logs-in to the client application.
 2. Login Request will go to API Connect.
 3. API Connect uses Login API for authentication. And then it generates OAuth token for authorization.
-4. Once authentication is successful, user can do `funds transfer` transaction. The request goes to app connect flow which internally uses `Account Management API`, `Credit Account API` and `Debit Account API`.
+4. Once authentication is successful, user can do `funds transfer` transaction. The request goes to app connect flow which internally uses `Account Management API`, `Credit Account API` and `Debit Account API`. All APIs interact with MongoDB.
 
 # Pre-requisites
 * [IBM Cloud Account](https://cloud.ibm.com)
@@ -31,8 +31,8 @@ Follow these steps to setup and run this code pattern. The steps are described i
 1. [Get the code](#1-get-the-code)
 2. [Create IBM Cloud Services](#2-create-ibm-cloud-services)
 3. [Configure App Connect](#3-configure-app-connect)
-4. [Configure API Connect]
-5. Setup environment for Kubernetes CLI
+4. Configure API Connect
+5. [Setup environment for Kubernetes CLI](#5-setup-environment-for-kubernetes-cli)
 6. [Deploy Mongo DB](#6-deploy-mongo-db)
 7. [Deploy Microservices](#7-deploy-microservices)
 8. Deploy webapp
