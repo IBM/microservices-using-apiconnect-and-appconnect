@@ -73,7 +73,7 @@ Create an instance of [IBM App Connect](https://cloud.ibm.com/catalog/services/a
 Use App Connect to connect your different applications and make your business more efficient. Set up flows that define how data is moved from one application to one or more other applications. App Connect supports a range of skill levels and interfaces, giving you the flexibility to create integrations without writing a single line of code. You can use a web user interface or drop resources into a toolkit that gives a broader range of configuration options. Your entire organization can make smarter business decisions by providing rapid access, visibility, and control over data as it flows through your business applications and systems from a single place - App Connect. Find more App Connect resources in [Learn More](#app-connect-resources-links-for-basic-familiarty) section.
 
 
-### Import API interfaces and flow
+#### Import API interfaces and flow
 - On IBM Cloud dashboard, click the App Connect service instance created in earlier step and will be be listed under `Cloud Foundry Services`
 - Click `Launch App Connect` button on the App Connect Service home page.
 
