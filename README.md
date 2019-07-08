@@ -1,19 +1,15 @@
-# Build a secure microservices based application using API connect and App Connect
+# Build a secure microservices based application using API Connect and App Connect
 
+In a microservices based solution, the common requirements include security of microservices, orchestration (integration with many other applications) of APIs and so on. Such requirements are primarily from the banking and financial services domain.
 
-There have been common requirements across clients regarding:
+In this code pattern, we demonstrate a banking solution using IBM API Connect and IBM App Connect. API Connect is used to provide OAuth based authorization security to microservices and App Connect Enterprise for easier and seamless integration of APIs (with zero code) for a business user. The solution comprises authentication and funds transfer functionality.
 
-* Providing OAuth based authorization security to microservices
-* Transaction flow support to microservices
-
-These requirements are primarily from the banking and financial services domain.
-In this code pattern, we demonstrate a solution to the above two requirements using IBM API Connect and App Connect.
-
-At the end of this code pattern, the user will understand:
-* Authentication and authorization using OAuth 2.0 public access code scheme in API Connect
-* A banking funds transfer functionality using App Connect
+At the end of this code pattern, users will understand:
+* Authentication and authorization using OAuth in API Connect
+* A banking funds transfer APIs(credit, debit, ..) orchestration using App Connect
 * To build and deploy nodejs microservices on IBM Kubernetes Service
 * Integration of API Connect, App Connect, microservices using Node-RED
+
 
 # Flow
 
