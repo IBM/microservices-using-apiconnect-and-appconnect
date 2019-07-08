@@ -18,7 +18,11 @@ At the end of this code pattern, users will understand:
 1. User logs-in to the client application.
 2. Login Request will go to API Connect.
 3. API Connect uses Login API for authentication. And then it generates OAuth token for authorization.
-4. Once authentication is successful, user can do `funds transfer` transaction. The request goes to app connect flow which internally uses `Account Management API`, `Credit Account API` and `Debit Account API`. All APIs interact with MongoDB.
+4. Once authentication is successful, user can do `funds transfer` transaction. The request goes to app connect flow which internally uses `Account Management API`, `Credit Account API` and `Debit Account API`. 
+
+> Note:
+>  * All microservices are deployed on IBM Kubernetes Service.
+>  * All APIs interact with MongoDB.
 
 # Pre-requisites
 * [IBM Cloud Account](https://cloud.ibm.com)
