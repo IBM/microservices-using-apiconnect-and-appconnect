@@ -61,7 +61,11 @@ Create a Kubernetes cluster with [Kubernetes Service](https://cloud.ibm.com/cont
   
 ### Create App Connect service instance
 
-Create an instance of [IBM App Connect](https://cloud.ibm.com/catalog/services/app-connect). Ensure `lite` plan is selected. Click `Create`. A new instance of IBM App Connect should be created.
+Create an instance of [IBM App Connect](https://cloud.ibm.com/catalog/services/app-connect). Ensure `lite` plan is selected. Click `Create`.
+
+![Create App Connect Instance](./images/app-connect-instance-create.png)
+
+A new instance of IBM App Connect should be created.
 
 ### Create API Connect service instance
 
@@ -72,6 +76,8 @@ Create an instance of [IBM App Connect](https://cloud.ibm.com/catalog/services/a
 ## 3. Configure App Connect
 Use App Connect to connect your different applications and make your business more efficient. Set up flows that define how data is moved from one application to one or more other applications. App Connect supports a range of skill levels and interfaces, giving you the flexibility to create integrations without writing a single line of code. You can use a web user interface or drop resources into a toolkit that gives a broader range of configuration options. Your entire organization can make smarter business decisions by providing rapid access, visibility, and control over data as it flows through your business applications and systems from a single place - App Connect. Find more App Connect resources in [Learn More](#app-connect-resources-links-for-basic-familiarty) section.
 
+Following image shows App Connect flow for funds transfer functionality and the steps in the below sub-sections explain how to import/develop this flow.
+![App Connect Flow](./images/app-connect-flow.png)
 
 #### Import API interfaces and flow
 - On IBM Cloud dashboard, click the App Connect service instance created in earlier step and will be be listed under `Cloud Foundry Services`
