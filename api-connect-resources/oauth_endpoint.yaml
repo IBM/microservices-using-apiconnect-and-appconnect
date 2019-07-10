@@ -213,7 +213,7 @@ x-ibm-configuration:
       type: default-form
     authentication:
       x-ibm-authentication-url:
-        url: 'https://replace_with_login_microservice_url'
+        url: 'http://<public_ip_of_cluster>:32423/login'
         tls-profile: ''
     authorization:
       type: default-form
