@@ -1,3 +1,5 @@
+# WORK IN PROGRESS
+
 # Build a secure microservices based application using API Connect and App Connect
 
 In a microservices based solution, the common requirements include security of microservices, orchestration (integration with many other applications) of APIs and so on. Such requirements are primarily from the banking and financial services domain.
@@ -57,7 +59,7 @@ Create a Kubernetes cluster with [Kubernetes Service](https://cloud.ibm.com/cont
 
   ![](images/create_service.png)
 
-  > Note: It can take up to 15-20 minutes for the cluster to be set up and provisioned.
+  > Note: It can take up to 15-20 minutes for the cluster to be set up and provisioned.  
   
 ### Create App Connect service instance
 
