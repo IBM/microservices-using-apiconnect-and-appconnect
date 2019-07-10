@@ -143,6 +143,13 @@ For the microservices used in this code pattern, the REST APIs definition files 
 
 ## 4. Configure API Connect
 
+* Note the end point url on API Connect
+- On the API Connect Dashboard, click on `Sandbox`.
+- Click on `Settings`.
+- Click on `Gateways`.
+- Note the `Endpoint` url
+
+![Note the endpoint](./images/note_api_connect_endpoint.gif)
 
 ## 5. Setup environment for Kubernetes CLI
 
