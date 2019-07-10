@@ -151,7 +151,16 @@ For the microservices used in this code pattern, the REST APIs definition files 
 
 ![Note the endpoint](./images/note_api_connect_endpoint.gif)
 
-* Import the OAuth end point yaml 
+* Create api for OAuth
+- On the API Connect Dashboard, click on `Drafts`.
+- Click on `APIs`
+- Click on `Add` and select `Import API from a file or URL`.
+- Click on `Or import from URL...`.
+- Enter the url  `https://raw.githubusercontent.com/IBM/microservices-using-apiconnect-and-appconnect/master/api-connect-resources/oauth_endpoint.yaml`.
+- The design tab for the API opens. Click on `OAuth 2`.
+- Scroll down to the `Authentication` section. For the `Authentication URL`, specify the login microservice url noted in the `Deploy login microservice` section.
+
+![Create OAuth API](./images/create_oauth_endpoint.gif)
 
 
 ## 5. Setup environment for Kubernetes CLI
