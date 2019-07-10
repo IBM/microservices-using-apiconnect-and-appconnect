@@ -147,9 +147,12 @@ For the microservices used in this code pattern, the REST APIs definition files 
 - On the API Connect Dashboard, click on `Sandbox`.
 - Click on `Settings`.
 - Click on `Gateways`.
-- Note the `Endpoint` url
+- Note the `Endpoint` url.
 
 ![Note the endpoint](./images/note_api_connect_endpoint.gif)
+
+* Import the OAuth end point yaml 
+
 
 ## 5. Setup environment for Kubernetes CLI
 
