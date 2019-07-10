@@ -182,7 +182,7 @@ For the microservices used in this code pattern, the REST APIs definition files 
 
     ![](images/worker-nodes.png)
   
-   Make a note of this public IP. It will be used in next step.
+   Make a note of this public IP. It will be used in further steps.
 
 ## 6. Deploy Mongo DB
 
@@ -203,17 +203,17 @@ After deployment, the status can be checked as:
    mongo        NodePort    172.21.84.39   <none>        27017:32643/TCP   11m
 ```
 
-The hostname and port to connect to mongodb will be `<public_ip_of_cluster>:<mongo_service_port>`. The mongo_service_port in this case, is 32643 (as shown in the above command).
+The connection_url to connect to mongodb will be `<public_ip_of_cluster>:<mongo_service_port>`. Use the public IP of your Kubernetes cluster retrieved in step 5. The mongo_service_port in this case, is 32643 (as shown in the above command). This connection url will be used by microservices to connect with mongo db.
 
 ## 7. Deploy Microservices
 
-As explained in step xx, we are creating login, bank account management, credit account and debit account functionality as microservices. Some user credentials and a few bank account details are pre-defined in Mongo DB. 
+For this application, we are creating microservices for authentication (login), bank account management, credit account and debit account functionality. Some user credentials and bank account details are pre-defined in Mongo DB. 
 
 Perform the following steps to deploy microservices.
 
 **Update MongoDB Connection String**
 
-Prepare connection url as explained in step 6. Then execute the following commands to update mongo db connection URL in app.js of all four microservices. 
+Prepare connection url as explained in step 6. Then execute the following commands to update mongo db connection url in app.js of all four microservices. 
 
 ```
    cd Microservices
@@ -244,7 +244,7 @@ To get namespace use the following command:
 
 For example, to deploy the login microservice to my docker image registry in the US-South region, my deploy_target will be:
 ```
-   us.icr.io/test_s1/login_app:v1.0
+   us.icr.io/test_namespace/login_app:v1.0
 ```
 
 **Deploy login microservice**
@@ -270,7 +270,8 @@ $ kubectl get services|grep login
 login-service   NodePort    172.21.113.169   <none>        8080:32423/TCP    31s
 ```
 
-Need to repeat the same for all other microservices.
+The login microservice will be accessible at `http://<public_ip_of_cluster>:<login_service_nodeport>`. Use the public IP of your Kubernetes cluster retrieved in step 5. The login_service_nodeport in this case is 32423 (shown in above command). To use login functionality of this service, access `http://<public_ip_of_cluster>:32423/login`.
+
 
 **Deploy account_management service**
 
@@ -286,6 +287,7 @@ Following are the steps for account_management service.
   $ kubectl get services | grep acc
   account-details-service   NodePort    172.21.166.106   <none>        8080:32424/TCP    33s
 ```
+Account management functionality of this service can be accessed by using `http://<public_ip_of_cluster>:32424/check_accounts`.
 
 **Deploy debit_account service**
 
@@ -302,6 +304,8 @@ Following are the steps for debit account service.
   debit-account-service     NodePort    172.21.138.208   <none>        8080:32425/TCP    16s
 ```
 
+Debit account functionality of this service can be accessed by using `http://<public_ip_of_cluster>:32425/debit_account`.
+
 **Deploy credit_account service**
 
 Following are the steps for credit account service.
@@ -317,7 +321,9 @@ Following are the steps for credit account service.
   credit-account-service    NodePort    172.21.51.254    <none>        8080:32426/TCP    11s
 ```
 
-All services should be up and running.
+Credit account functionality of this service can be accessed by using `http://<public_ip_of_cluster>:32426/credit_account`
+
+> Note: We have defined NodePort of all four microservices. Please change the ports if not available in your Kubernetes Cluster.
 
 ## Learn More
 
