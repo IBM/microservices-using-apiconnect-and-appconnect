@@ -143,7 +143,7 @@ For the microservices used in this code pattern, the REST APIs definition files 
 
 ## 4. Configure API Connect
 
-* Note the end point url on API Connect
+### Note the end point url on API Connect
 - On the API Connect Dashboard, click on `Sandbox`.
 - Click on `Settings`.
 - Click on `Gateways`.
@@ -151,8 +151,38 @@ For the microservices used in this code pattern, the REST APIs definition files 
 
 ![Note the endpoint](./images/note_api_connect_endpoint.gif)
 
-* Import the OAuth end point yaml 
+### Create API for OAuth
+- On the API Connect Dashboard, click on `Drafts`.
+- Click on `APIs`
+- Click on `Add` and select `Import API from a file or URL`.
+- Click on `Or import from URL...`.
+- Enter the url  `https://raw.githubusercontent.com/IBM/microservices-using-apiconnect-and-appconnect/master/api-connect-resources/oauth_endpoint.yaml`.
+- The design tab for the API opens. Click on `OAuth 2`.
+- Scroll down to the `Authentication` section. For the `Authentication URL`, specify the login microservice url noted in the `Deploy login microservice` section.
+- Click on `Save` icon.
 
+![Create OAuth API](./images/create_oauth_endpoint.gif)
+
+### Create API for Funds Transfer
+
+We will use the file exported in the step `Export the App Connect Flow Rest interface` earlier.
+- On the API Connect Dashboard, click on `Drafts`.
+- Click on `APIs`
+- Click on `Add` and select `Import API from a file or URL`.
+- Click on `Browse` and select the file exported earlier from App Connect interface.
+- Click on `Import`.
+- The design tab for the API opens. Click on `Security Defintions`.
+- Click on `+` and select `OAuth` to create a new OAuth definition.
+- Scroll down to `Flow` section. Select `Access code`.
+- For `Authorization URL` enter the following URL - `http://<the end point url for API Connect noted earlier>/oauth-end/oauth2/authorize'.
+- For `Token URL` enter the following URL - `http://<the end point url for API Connect noted earlier>/oauth-end/oauth2/token'.
+- In the `Scopes` section, click on `+` to add a new scope.
+- Enter `funds_transfer` for the name.
+- Enter a description
+- Scroll down to the `Security` section. Select the newly created `OAuth` definition. The scope `funds_transfer` will get automatically selected.
+- Click on `Save` icon.
+
+![Create Funds Transfer API](./images/create_funds_transfer_endpoint.gif)
 
 ## 5. Setup environment for Kubernetes CLI
 
