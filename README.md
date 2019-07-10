@@ -143,7 +143,7 @@ For the microservices used in this code pattern, the REST APIs definition files 
 
 ## 4. Configure API Connect
 
-* Note the end point url on API Connect
+### Note the end point url on API Connect
 - On the API Connect Dashboard, click on `Sandbox`.
 - Click on `Settings`.
 - Click on `Gateways`.
@@ -151,7 +151,7 @@ For the microservices used in this code pattern, the REST APIs definition files 
 
 ![Note the endpoint](./images/note_api_connect_endpoint.gif)
 
-* Create api for OAuth
+### Create API for OAuth
 - On the API Connect Dashboard, click on `Drafts`.
 - Click on `APIs`
 - Click on `Add` and select `Import API from a file or URL`.
