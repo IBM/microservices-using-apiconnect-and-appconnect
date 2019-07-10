@@ -206,7 +206,6 @@ x-ibm-configuration:
   oauth2:
     client-type: public
     scopes:
-      account_details: Fetch account details
       funds_transfer: Transfer funds
     grants:
       - accessCode
@@ -214,7 +213,7 @@ x-ibm-configuration:
       type: default-form
     authentication:
       x-ibm-authentication-url:
-        url: 'https://'
+        url: 'https://replace_with_login_microservice_url'
         tls-profile: ''
     authorization:
       type: default-form
