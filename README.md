@@ -71,9 +71,19 @@ A new instance of IBM App Connect should be created.
 
 ### Create API Connect service instance
 
+Create an instance of [IBM API Connect](https://cloud.ibm.com/catalog/services/api-connect). Ensure `lite` plan is selected. Click `Create`.
+
+![Create API Connect Instance](./images/api-connect-instance-create.png)
+
+A new instance of IBM API Connect should be created.
 
 ### Create Node-RED service instance
 
+Create an instance of [Node-RED](https://cloud.ibm.com/catalog/starters/node-red-starter). Ensure `lite` plan is selected. Click `Create`.
+
+![Create Node-RED Instance](./images/node-red-instance-create.png)
+
+A new instance of Node-RED should be created.
   
 ## 3. Configure App Connect
 Use App Connect to connect your different applications and make your business more efficient. Set up flows that define how data is moved from one application to one or more other applications. App Connect supports a range of skill levels and interfaces, giving you the flexibility to create integrations without writing a single line of code. You can use a web user interface or drop resources into a toolkit that gives a broader range of configuration options. Your entire organization can make smarter business decisions by providing rapid access, visibility, and control over data as it flows through your business applications and systems from a single place - App Connect. Find more App Connect resources in [Learn More](#app-connect-resources-links-for-basic-familiarty) section.
@@ -132,6 +142,16 @@ For the microservices used in this code pattern, the REST APIs definition files 
 ![Export API Defn JSON](./images/api-defn-export.png)
 
 ## 4. Configure API Connect
+
+* Note the end point url on API Connect
+- On the API Connect Dashboard, click on `Sandbox`.
+- Click on `Settings`.
+- Click on `Gateways`.
+- Note the `Endpoint` url.
+
+![Note the endpoint](./images/note_api_connect_endpoint.gif)
+
+* Import the OAuth end point yaml 
 
 
 ## 5. Setup environment for Kubernetes CLI
