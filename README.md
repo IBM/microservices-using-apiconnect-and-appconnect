@@ -184,6 +184,53 @@ We will use the file exported in the step `Export the App Connect Flow Rest inte
 
 ![Create Funds Transfer API](./images/create_funds_transfer_endpoint.gif)
 
+### Note the funds transfer endpoint url
+
+On the funds transfer `Design` page:
+- Click on `Base Path` and note the base path.
+- Click on `Paths` and note the path.
+The funds transfer api endpoint url is [End point url for API Connect noted earlier]/[Base Path]/[Path].
+It should look like - https://api.au-syd.apiconnect.appdomain.cloud/.../sb/Z1ZFXl/Fund_Transfer.
+ 
+ ![Note funds transfer endpoint url](./images/note_fund_transfer_url.gif) 
+   
+### Create a Product and Publish
+
+Go to `Drafts` and select `Products`.
+- Click on `Add + New Product`.
+- Enter `Title`, `Name` and `Version`. Click `Create`.
+- The `Design` page opens.
+- On the `Design` page, select `APIs`.
+- Click on `+` to add APIs.
+- Select both `OAuth endpoint` API and `Funds Transfer` API.
+- Click on `Save` icon.
+- Click on `Stage` icon and select `Sandbox`.
+- Go to `Dashboard`.
+- Click on `Sandbox`.
+- Click on the staged Banking Services product.
+- Select `Publish` from the menu.
+- On the `dialog` that appears, click on `Publish` to publish the product.
+
+![Create Product and Publish](./images/create_product_publish.gif) 
+ 
+### Create an app
+
+- On the `Sandbox` dashboard, click on `Settings`.
+- Click on `Portal`.
+- Click on the `Portal` link.
+- On the portal page, click on `Create an account`.
+- Enter all the details and click `Create new account`.
+- Activate the account using the sent email.
+- Login to the portal with the chosen username and password. Click `Log-in`.
+- Click on `Apps`.
+- Click on `Create an App`.
+- Enter the `Title` and `Description`. For the `OAuth Redirect URI`, enter http://[Node RED Base URL noted earlier]/client.
+- Click `Submit`.
+- Note the `Client ID` generated for the created `App`.
+
+![Create App](./images/create_app.gif) 
+
+
 ## 5. Setup environment for Kubernetes CLI
 
   * Check the status of your cluster `IBM Cloud Dashboard -> Kubernetes Cluster -> <your cluster>`. If status is not `Normal`, then you need to wait for some more time to proceed further.
