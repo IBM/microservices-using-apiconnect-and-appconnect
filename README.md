@@ -184,6 +184,36 @@ We will use the file exported in the step `Export the App Connect Flow Rest inte
 
 ![Create Funds Transfer API](./images/create_funds_transfer_endpoint.gif)
 
+### Note the funds transfer endpoint url
+
+On the funds transfer `Design` page:
+- Click on `Base Path` and note the base path.
+- Click on `Paths` and note the path.
+The funds transfer api endpoint url is https://<End point url for API Connect noted earlier>/<Base Path>/<Path>.
+ 
+ ![Note funds transfer endpoint url](./images/note_fund_transfer_url.gif) 
+   
+### Create a Product and Publish
+
+Go to `Drafts` and select `Products`.
+- Click on `Add + New Product`.
+- Enter `Title`, `Name` and `Version`. Click `Create`.
+- The `Design` page opens.
+- On the `Design` page, select `APIs`.
+- Click on `+` to add APIs.
+- Select both `OAuth endpoint` API and `Funds Transfer` API.
+- Click on `Save` icon.
+- Click on `Stage` icon and select `Sandbox`.
+- Go to `Dashboard`.
+- Click on `Sandbox`.
+- Click on the staged Banking Services product.
+- Select `Publish` from the menu.
+- On the `dialog` that appears, click on `Publish` to publish the product.
+
+![Create Product and Publish](./images/create_product_publish.gif) 
+ 
+
+
 ## 5. Setup environment for Kubernetes CLI
 
   * Check the status of your cluster `IBM Cloud Dashboard -> Kubernetes Cluster -> <your cluster>`. If status is not `Normal`, then you need to wait for some more time to proceed further.
