@@ -189,7 +189,8 @@ We will use the file exported in the step `Export the App Connect Flow Rest inte
 On the funds transfer `Design` page:
 - Click on `Base Path` and note the base path.
 - Click on `Paths` and note the path.
-The funds transfer api endpoint url is https://<End point url for API Connect noted earlier>/<Base Path>/<Path>.
+The funds transfer api endpoint url is [End point url for API Connect noted earlier]/[Base Path]/[Path].
+It should look like - https://api.au-syd.apiconnect.appdomain.cloud/.../sb/Z1ZFXl/Fund_Transfer.
  
  ![Note funds transfer endpoint url](./images/note_fund_transfer_url.gif) 
    
@@ -212,6 +213,22 @@ Go to `Drafts` and select `Products`.
 
 ![Create Product and Publish](./images/create_product_publish.gif) 
  
+### Create an app
+
+- On the `Sandbox` dashboard, click on `Settings`.
+- Click on `Portal`.
+- Click on the `Portal` link.
+- On the portal page, click on `Create an account`.
+- Enter all the details and click `Create new account`.
+- Activate the account using the sent email.
+- Login to the portal with the chosen username and password. Click `Log-in`.
+- Click on `Apps`.
+- Click on `Create an App`.
+- Enter the `Title` and `Description`. For the `OAuth Redirect URI`, enter http://[Node RED Base URL noted earlier]/client.
+- Click `Submit`.
+- Note the `Client ID` generated for the created `App`.
+
+![Create App](./images/create_app.gif) 
 
 
 ## 5. Setup environment for Kubernetes CLI
