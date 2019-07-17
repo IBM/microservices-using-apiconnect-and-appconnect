@@ -84,7 +84,11 @@ Create an instance of [Node-RED](https://cloud.ibm.com/catalog/starters/node-red
 ![Create Node-RED Instance](./images/node-red-instance-create.png)
 
 A new instance of Node-RED should be created.
-  
+
+#### Note the base url of Node-RED
+
+![Note Node-RED base url](./images/Note_Node_RED_URL.png)
+
 ## 3. Configure App Connect
 Use App Connect to connect your different applications and make your business more efficient. Set up flows that define how data is moved from one application to one or more other applications. App Connect supports a range of skill levels and interfaces, giving you the flexibility to create integrations without writing a single line of code. You can use a web user interface or drop resources into a toolkit that gives a broader range of configuration options. Your entire organization can make smarter business decisions by providing rapid access, visibility, and control over data as it flows through your business applications and systems from a single place - App Connect. Find more App Connect resources in [Learn More](#app-connect-resources-links-for-basic-familiarty) section.
 
