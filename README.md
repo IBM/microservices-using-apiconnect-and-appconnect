@@ -85,7 +85,7 @@ Create an instance of [Node-RED](https://cloud.ibm.com/catalog/starters/node-red
 
 A new instance of Node-RED should be created.
 
-#### Note the base url of Node-RED
+#### Note the base url of Node-RED as shown below:
 
 ![Note Node-RED base url](./images/Note_Node_RED_URL.png)
 
