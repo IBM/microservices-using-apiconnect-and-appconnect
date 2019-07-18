@@ -437,7 +437,7 @@ Enter all the details and click `Configure`.
 
 ## 9. Analyze the result
 
-Go to URL : https://[Node-RED base url noted earlier/login.
+Go to URL : https://[Node-RED base url noted earlier]/login.
 
 - Enter username and password
 - Click `Allow Access` on the pop-up. The OAuth based authorization uses the `public access code` scheme. 
