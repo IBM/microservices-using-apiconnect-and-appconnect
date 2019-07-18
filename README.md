@@ -87,7 +87,7 @@ A new instance of Node-RED should be created.
 
 #### Note the base url of Node-RED as shown below:
 
-![Note Node-RED base url](./images/Note_Node_RED_URL.png)
+![Note Node-RED base url](./images/note_node_red_url.png)
 
 ## 3. Configure App Connect
 Use App Connect to connect your different applications and make your business more efficient. Set up flows that define how data is moved from one application to one or more other applications. App Connect supports a range of skill levels and interfaces, giving you the flexibility to create integrations without writing a single line of code. You can use a web user interface or drop resources into a toolkit that gives a broader range of configuration options. Your entire organization can make smarter business decisions by providing rapid access, visibility, and control over data as it flows through your business applications and systems from a single place - App Connect. Find more App Connect resources in [Learn More](#app-connect-resources-links-for-basic-familiarty) section.
@@ -217,7 +217,7 @@ Go to `Drafts` and select `Products`.
 
 ![Create Product and Publish](./images/create_product_publish.gif) 
  
-### Create an app
+### Create an app on Developer portal
 
 - On the `Sandbox` dashboard, click on `Settings`.
 - Click on `Portal`.
@@ -234,6 +234,13 @@ Go to `Drafts` and select `Products`.
 
 ![Create App](./images/create_app.gif) 
 
+### Subscribe to a plan
+
+On the developer portal, click on `API Products`.
+- Click on `Banking Services` product that we created earlier.
+- Click on `Subscribe` to subscribe to the default plan.
+
+![Subscribe plan](./images/app_subscribe_plan.gif) 
 
 ## 5. Setup environment for Kubernetes CLI
 
