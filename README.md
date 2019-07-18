@@ -414,7 +414,7 @@ Credit account functionality of this service can be accessed by using `http://<p
 
 > Note: We have defined NodePort of all four microservices. Please change the ports if not available in your Kubernetes Cluster.
 
-## 7. Deploy client application
+## 8. Deploy client application
 
 ### Import the Node-RED flow and deploy
 
@@ -434,7 +434,22 @@ The Node-RED flow is available at: https://raw.githubusercontent.com/IBM/microse
 Go to the URL: http://[Node-RED base url noted earlier]/configureui.
 Enter all the details and click `Configure`.
 ![Configure app](./images/configure_app.png) 
+
+## 9. Deploy client application
+
+Go to URL : https://[Node-RED base url noted earlier/login.
+
+- Enter username and password
+- Click `Allow Access` on the pop-up. The OAuth based authorization uses the `public access code` scheme. 
+- Choose option - `Transfer funds to another account`.
+- Enter all the details for transfer.
+- Click `Transfer`.
+
+![demo](./images/demo.gif) 
+
 ## Learn More
+
+[Securing an API by using OAuth 2.0](https://www.ibm.com/support/knowledgecenter/en/SSFS6T/com.ibm.apic.toolkit.doc/tutorial_apionprem_security_OAuth.html)
 
 ### App Connect resources links for basic familiarty
 - Introduction to App Connect on Cloud https://developer.ibm.com/integration/docs/app-connect/
