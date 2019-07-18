@@ -435,7 +435,7 @@ Go to the URL: http://[Node-RED base url noted earlier]/configureui.
 Enter all the details and click `Configure`.
 ![Configure app](./images/configure_app.png) 
 
-## 9. Deploy client application
+## 9. Analyze the result
 
 Go to URL : https://[Node-RED base url noted earlier/login.
 
