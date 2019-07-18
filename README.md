@@ -37,12 +37,12 @@ Follow these steps to setup and run this code pattern. The steps are described i
 1. [Get the code](#1-get-the-code)
 2. [Create IBM Cloud Services](#2-create-ibm-cloud-services)
 3. [Configure App Connect](#3-configure-app-connect)
-4. Configure API Connect
+4. [Configure API Connect](#4-configure-api-connect)
 5. [Setup environment for Kubernetes CLI](#5-setup-environment-for-kubernetes-cli)
 6. [Deploy Mongo DB](#6-deploy-mongo-db)
 7. [Deploy Microservices](#7-deploy-microservices)
-8. Deploy webapp
-9. Analyze the result
+8. [Deploy client application](#8-deploy-client-application)
+9. [Analyze the result](#9-analyze-the-result)
 
 ## 1. Get the code
 
@@ -194,11 +194,12 @@ On the funds transfer `Design` page:
 - Click on `Base Path` and note the base path.
 - Click on `Paths` and note the path.
 The funds transfer api endpoint url is [End point url for API Connect noted earlier]/[Base Path]/[Path].
+
 It should look like - https://api.au-syd.apiconnect.appdomain.cloud/.../sb/Z1ZFXl/Fund_Transfer.
  
  ![Note funds transfer endpoint url](./images/note_fund_transfer_url.gif) 
    
-### Create a Product and Publish
+### Create a product and publish
 
 Go to `Drafts` and select `Products`.
 - Click on `Add + New Product`.
@@ -217,7 +218,7 @@ Go to `Drafts` and select `Products`.
 
 ![Create Product and Publish](./images/create_product_publish.gif) 
  
-### Create an app on Developer portal
+### Create an app on developer portal
 
 - On the `Sandbox` dashboard, click on `Settings`.
 - Click on `Portal`.
@@ -413,6 +414,26 @@ Credit account functionality of this service can be accessed by using `http://<p
 
 > Note: We have defined NodePort of all four microservices. Please change the ports if not available in your Kubernetes Cluster.
 
+## 7. Deploy client application
+
+### Import the Node-RED flow and deploy
+
+The Node-RED flow is available at: https://raw.githubusercontent.com/IBM/microservices-using-apiconnect-and-appconnect/master/client-app/node-red-flows/flows.json
+
+- Copy the raw contents from https://raw.githubusercontent.com/IBM/microservices-using-apiconnect-and-appconnect/master/client-app/node-red-flows/flows.json to the clipboard.
+- Go to the Node-RED flow editor.
+- Select `Import` and then `Clipboard` from menu.
+- Paste the copied contents.
+- Click on `Import`.
+- Click on `Deploy` to deploy the Node-RED flow.
+
+![Deploy app](./images/deploy_client_app.gif) 
+
+#### Configure the application
+
+Go to the URL: http://[Node-RED base url noted earlier]/configureui.
+Enter all the details and click `Configure`.
+![Configure app](./images/configure_app.png) 
 ## Learn More
 
 ### App Connect resources links for basic familiarty
