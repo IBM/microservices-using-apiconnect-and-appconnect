@@ -439,14 +439,14 @@ Enter all the details and click `Configure`.
 
 As mentioned in `step 5`, a set of user credentials and bank account details are pre-defined in Mongo DB. 
 
-Predefined users are:
+Following are the users details (already saved in db):
 ```
    {_id: "user1", password: "user1"}
    {_id: "user2", password: "user2"}
    {_id: "user3", password: "user3"}
 ```
 
-Predefined account details are:
+Predefined accounts details are:
 ```
    {_id: "121", accountholder: "John", funds: 25000}
    {_id: "122", accountholder: "Tim", funds: 15000}
