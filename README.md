@@ -1,4 +1,3 @@
-# WORK IN PROGRESS
 
 # Build a secure microservices based application using API Connect and App Connect
 
@@ -36,11 +35,11 @@ Follow these steps to setup and run this code pattern. The steps are described i
 
 1. [Get the code](#1-get-the-code)
 2. [Create IBM Cloud Services](#2-create-ibm-cloud-services)
-3. [Configure App Connect](#3-configure-app-connect)
-4. [Configure API Connect](#4-configure-api-connect)
-5. [Setup environment for Kubernetes CLI](#5-setup-environment-for-kubernetes-cli)
-6. [Deploy Mongo DB](#6-deploy-mongo-db)
-7. [Deploy Microservices](#7-deploy-microservices)
+3. [Setup environment for Kubernetes CLI](#3-setup-environment-for-kubernetes-cli)
+4. [Deploy Mongo DB](#4-deploy-mongo-db)
+5. [Deploy Microservices](#5-deploy-microservices)
+6. [Configure App Connect](#6-configure-app-connect)
+7. [Configure API Connect](#7-configure-api-connect)
 8. [Deploy client application](#8-deploy-client-application)
 9. [Analyze the result](#9-analyze-the-result)
 
@@ -85,165 +84,11 @@ Create an instance of [Node-RED](https://cloud.ibm.com/catalog/starters/node-red
 
 A new instance of Node-RED should be created.
 
-#### Note the base url of Node-RED as shown below:
+**Note the base url of Node-RED** as shown below:
 
 ![Note Node-RED base url](./images/note_node_red_url.png)
 
-## 3. Configure App Connect
-Use App Connect to connect your different applications and make your business more efficient. Set up flows that define how data is moved from one application to one or more other applications. App Connect supports a range of skill levels and interfaces, giving you the flexibility to create integrations without writing a single line of code. You can use a web user interface or drop resources into a toolkit that gives a broader range of configuration options. Your entire organization can make smarter business decisions by providing rapid access, visibility, and control over data as it flows through your business applications and systems from a single place - App Connect. Find more App Connect resources in [Learn More](#app-connect-resources-links-for-basic-familiarty) section.
-
-Following image shows App Connect flow for funds transfer functionality and the steps in the below sub-sections explain how to import/develop this flow.
-![App Connect Flow](./images/app-connect-flow.png)
-
-#### Import API interfaces and flow
-- On IBM Cloud dashboard, click the App Connect service instance created in earlier step and will be be listed under `Cloud Foundry Services`
-- Click `Launch App Connect` button on the App Connect Service home page.
-
-#### Add APIs to Catalog
-The [OpenAPI Specification](https://github.com/OAI/OpenAPI-Specification), previously known as the Swagger Specification, is a definition format for describing REST APIs. You can import OpenAPI documents that contain API definitions into IBM App Connect. Each imported document is added as an API to the App Connect catalog of applications and APIs, and can be used to call the API from a flow.
-
-For the microservices used in this code pattern, the REST APIs definition files are available under `app-connect-resources/microservices-apis` folder. 
-
-![Add API to Catalog](./images/add-api-to-catalog.gif)
-- On App Connect top menu, click `Catalog` -> `APIs` -> `Add your API or web service now` -> `Add an OpenAPI definition, WSDL or ZIP`
-- Browse to `app-connect-resources/microservices-apis` folder and select `Account_Check.json` file.
-- Specify the name to be `Account_Check`. While any unique name can be given to APIs, we will maintain the names specified here so that the flow that we will import in later steps work with the APIs, without error.
-- Optional. Add a description that summarizes the function of the API.
-- Click `Add`.
-> Note that the hostname and port are overwritten while connecting to an account.
-- Similarly add APIs `Debit_Transaction` (name should be `Debit_Transaction`) and `Credit_Transaction` (name should be `Credit_Transaction`).
-- As a sanity check, verify that the microservices are working fine using a REST client like postman.
-
-#### Import flow
-- Click `Import Flow` button. The flow should be imported now.
-- On the top right corner of the browser page, click the `New` button and select `Import Flow...`.
-![Import Flow](./images/import-flow.gif)
-- Click "Add a YAML file". Browse the cloned repository and select `Flow.yaml` file in `app-connect-resources` folder. 
-![Import Flow Check](./images/import-flow-check.gif)
-- When imported click on `Operations` tab -> `Edit Flow` button and verify that there are no visible error indicator.
-- You have imported the flow.
-
-#### Test the imported flow
-- Now that you have imported the flow, you need to test it.
-- Navigate to App Connect dashboard and start the flow.
-![Flow Start](./images/flow-start.png)
-- Click on the flow on App Connect Dashboard.
-- Click `Manage` tab.
-- Scroll to the bottom of the page to `Sharing Outside of Cloud Foundry organization` section. Click `Create API Key`.
-- Enter a name under `Descriptive name` field and click `Create`.
-- `API Portal Link` is populated with a link. Click on that link.
-- On the right hand side panel, click on `Try it` link. 
-- Under `Parameters -> Data`, enter the input data for rest service and click `Call Operation`. 
-- Scroll a little down and you should see response from the service. Response Code should be `200 OK`.
-![Flow Test](./images/flow-test.gif)
-
-#### Export the App Connect Flow Rest interface
-- Navigate to App Connect dashboard.
-- Click on the flow on App Connect Dashboard.
-- Click `Manage` tab.
-- Scroll a little until you find `API Info` section.
-- Click `API Definition` that is available on the right side of the page, to see the options. Click `Export JSON File` and save the json file. This file is needed by API Connect to invoke requests to App Connect flows.
-![Export API Defn JSON](./images/api-defn-export.png)
-
-## 4. Configure API Connect
-
-### Note the end point url on API Connect
-- On the API Connect Dashboard, click on `Sandbox`.
-- Click on `Settings`.
-- Click on `Gateways`.
-- Note the `Endpoint` url.
-
-![Note the endpoint](./images/note_api_connect_endpoint.gif)
-
-### Create API for OAuth
-- On the API Connect Dashboard, click on `Drafts`.
-- Click on `APIs`
-- Click on `Add` and select `Import API from a file or URL`.
-- Click on `Or import from URL...`.
-- Enter the url  `https://raw.githubusercontent.com/IBM/microservices-using-apiconnect-and-appconnect/master/api-connect-resources/oauth_endpoint.yaml`.
-- The design tab for the API opens. Click on `OAuth 2`.
-- Scroll down to the `Authentication` section. For the `Authentication URL`, specify the login microservice url noted in the `Deploy login microservice` section.
-- Click on `Save` icon.
-
-![Create OAuth API](./images/create_oauth_endpoint.gif)
-
-### Create API for Funds Transfer
-
-We will use the file exported in the step `Export the App Connect Flow Rest interface` earlier.
-- On the API Connect Dashboard, click on `Drafts`.
-- Click on `APIs`
-- Click on `Add` and select `Import API from a file or URL`.
-- Click on `Browse` and select the file exported earlier from App Connect interface.
-- Click on `Import`.
-- The design tab for the API opens. Click on `Security Defintions`.
-- Click on `+` and select `OAuth` to create a new OAuth definition.
-- Scroll down to `Flow` section. Select `Access code`.
-- For `Authorization URL` enter the following URL - `http://<the end point url for API Connect noted earlier>/oauth-end/oauth2/authorize'.
-- For `Token URL` enter the following URL - `http://<the end point url for API Connect noted earlier>/oauth-end/oauth2/token'.
-- In the `Scopes` section, click on `+` to add a new scope.
-- Enter `funds_transfer` for the name.
-- Enter a description
-- Scroll down to the `Security` section. Select the newly created `OAuth` definition. The scope `funds_transfer` will get automatically selected.
-- Click on `Save` icon.
-
-![Create Funds Transfer API](./images/create_funds_transfer_endpoint.gif)
-
-### Note the funds transfer endpoint url
-
-On the funds transfer `Design` page:
-- Click on `Base Path` and note the base path.
-- Click on `Paths` and note the path.
-The funds transfer api endpoint url is [End point url for API Connect noted earlier]/[Base Path]/[Path].
-
-It should look like - https://api.au-syd.apiconnect.appdomain.cloud/.../sb/Z1ZFXl/Fund_Transfer.
- 
- ![Note funds transfer endpoint url](./images/note_fund_transfer_url.gif) 
-   
-### Create a product and publish
-
-Go to `Drafts` and select `Products`.
-- Click on `Add + New Product`.
-- Enter `Title`, `Name` and `Version`. Click `Create`.
-- The `Design` page opens.
-- On the `Design` page, select `APIs`.
-- Click on `+` to add APIs.
-- Select both `OAuth endpoint` API and `Funds Transfer` API.
-- Click on `Save` icon.
-- Click on `Stage` icon and select `Sandbox`.
-- Go to `Dashboard`.
-- Click on `Sandbox`.
-- Click on the staged Banking Services product.
-- Select `Publish` from the menu.
-- On the `dialog` that appears, click on `Publish` to publish the product.
-
-![Create Product and Publish](./images/create_product_publish.gif) 
- 
-### Create an app on developer portal
-
-- On the `Sandbox` dashboard, click on `Settings`.
-- Click on `Portal`.
-- Click on the `Portal` link.
-- On the portal page, click on `Create an account`.
-- Enter all the details and click `Create new account`.
-- Activate the account using the sent email.
-- Login to the portal with the chosen username and password. Click `Log-in`.
-- Click on `Apps`.
-- Click on `Create an App`.
-- Enter the `Title` and `Description`. For the `OAuth Redirect URI`, enter http://[Node RED Base URL noted earlier]/client.
-- Click `Submit`.
-- Note the `Client ID` generated for the created `App`.
-
-![Create App](./images/create_app.gif) 
-
-### Subscribe to a plan
-
-On the developer portal, click on `API Products`.
-- Click on `Banking Services` product that we created earlier.
-- Click on `Subscribe` to subscribe to the default plan.
-
-![Subscribe plan](./images/app_subscribe_plan.gif) 
-
-## 5. Setup environment for Kubernetes CLI
+## 3. Setup environment for Kubernetes CLI
 
   * Check the status of your cluster `IBM Cloud Dashboard -> Kubernetes Cluster -> <your cluster>`. If status is not `Normal`, then you need to wait for some more time to proceed further.
     
@@ -251,7 +96,7 @@ On the developer portal, click on `API Products`.
 
     ![](images/access-to-cluster.png)
     
-    Perform the steps provided under this section.
+    Perform the steps provided under this section to get access of your cluster through `kubectl` CLI.
     
   * Verify that the kubectl commands run properly with your cluster by checking the Kubernetes CLI server version.
 
@@ -273,7 +118,7 @@ On the developer portal, click on `API Products`.
   
    Make a note of this public IP. It will be used in further steps.
 
-## 6. Deploy Mongo DB
+## 4. Deploy Mongo DB
 
 In this pattern, mongo db will be deployed in a container and will be used by all the microservices. Perform the following steps to deploy Mongo DB in a container.
 
@@ -292,11 +137,11 @@ After deployment, the status can be checked as:
    mongo        NodePort    172.21.84.39   <none>        27017:32643/TCP   11m
 ```
 
-The connection_url to connect to mongodb will be `<public_ip_of_cluster>:<mongo_service_port>`. Use the public IP of your Kubernetes cluster retrieved in step 5. The mongo_service_port in this case, is 32643 (as shown in the above command). This connection url will be used by microservices to connect with mongo db.
+The **connection_url** to connect to mongodb will use `<public_ip_of_cluster>:<mongo_service_port>`. Use the public IP of your Kubernetes cluster retrieved in step 3 above. The mongo_service_port in this case, is 32643 (as shown in the above command). This connection url will be used by microservices to connect with mongo db.
 
-## 7. Deploy Microservices
+## 5. Deploy Microservices
 
-For this application, we are creating microservices for authentication (login), bank account management, credit account and debit account functionality. Some user credentials and bank account details are pre-defined in Mongo DB. 
+For this application, we are creating microservices for authentication (login), bank account management, credit account and debit account functionality. A set of user credentials and bank account details are pre-defined in Mongo DB. 
 
 Perform the following steps to deploy microservices.
 
@@ -414,9 +259,164 @@ Credit account functionality of this service can be accessed by using `http://<p
 
 > Note: We have defined NodePort of all four microservices. Please change the ports if not available in your Kubernetes Cluster.
 
+## 6. Configure App Connect
+
+Use App Connect to connect your different applications and make your business more efficient. Set up flows that define how data is moved from one application to one or more other applications. App Connect supports a range of skill levels and interfaces, giving you the flexibility to create integrations without writing a single line of code. You can use a web user interface or drop resources into a toolkit that gives a broader range of configuration options. Your entire organization can make smarter business decisions by providing rapid access, visibility, and control over data as it flows through your business applications and systems from a single place - App Connect. Find more App Connect resources in [Learn More](#app-connect-resources-links-for-basic-familiarty) section.
+
+Following image shows App Connect flow for funds transfer functionality and the steps in the below sub-sections explain how to import/develop this flow.
+![App Connect Flow](./images/app-connect-flow.png)
+
+#### Import API interfaces and flow
+- On IBM Cloud dashboard, click the App Connect service instance created in earlier step and will be be listed under `Cloud Foundry Services`
+- Click `Launch App Connect` button on the App Connect Service home page.
+
+#### Add APIs to Catalog
+The [OpenAPI Specification](https://github.com/OAI/OpenAPI-Specification), previously known as the Swagger Specification, is a definition format for describing REST APIs. You can import OpenAPI documents that contain API definitions into IBM App Connect. Each imported document is added as an API to the App Connect catalog of applications and APIs, and can be used to call the API from a flow.
+
+For the microservices used in this code pattern, the REST APIs definition files are available under `app-connect-resources/microservices-apis` folder. 
+
+![Add API to Catalog](./images/add-api-to-catalog.gif)
+- On App Connect top menu, click `Catalog` -> `APIs` -> `Add your API or web service now` -> `Add an OpenAPI definition, WSDL or ZIP`
+- Browse to `app-connect-resources/microservices-apis` folder and select `Account_Check.json` file.
+- Specify the name to be `Account_Check`. While any unique name can be given to APIs, we will maintain the names specified here so that the flow that we will import in later steps work with the APIs, without error.
+- Optional. Add a description that summarizes the function of the API.
+- Click `Add`.
+> Note that the hostname and port are overwritten while connecting to an account.
+- Similarly add APIs `Debit_Transaction` (name should be `Debit_Transaction`) and `Credit_Transaction` (name should be `Credit_Transaction`).
+- As a sanity check, verify that the microservices are working fine using a REST client like postman.
+
+#### Import flow
+- Click `Import Flow` button. The flow should be imported now.
+- On the top right corner of the browser page, click the `New` button and select `Import Flow...`.
+![Import Flow](./images/import-flow.gif)
+- Click "Add a YAML file". Browse the cloned repository and select `Flow.yaml` file in `app-connect-resources` folder. 
+![Import Flow Check](./images/import-flow-check.gif)
+- When imported click on `Operations` tab -> `Edit Flow` button and verify that there are no visible error indicator.
+- You have imported the flow.
+
+#### Test the imported flow
+- Now that you have imported the flow, you need to test it.
+- Navigate to App Connect dashboard and start the flow.
+![Flow Start](./images/flow-start.png)
+- Click on the flow on App Connect Dashboard.
+- Click `Manage` tab.
+- Scroll to the bottom of the page to `Sharing Outside of Cloud Foundry organization` section. Click `Create API Key`.
+- Enter a name under `Descriptive name` field and click `Create`.
+- `API Portal Link` is populated with a link. Click on that link.
+- On the right hand side panel, click on `Try it` link. 
+- Under `Parameters -> Data`, enter the input data for rest service and click `Call Operation`. 
+- Scroll a little down and you should see response from the service. Response Code should be `200 OK`.
+![Flow Test](./images/flow-test.gif)
+
+#### Export the App Connect Flow Rest interface
+- Navigate to App Connect dashboard.
+- Click on the flow on App Connect Dashboard.
+- Click `Manage` tab.
+- Scroll a little until you find `API Info` section.
+- Click `API Definition` that is available on the right side of the page, to see the options. Click `Export JSON File` and save the json file. This file is needed by API Connect to invoke requests to App Connect flows.
+![Export API Defn JSON](./images/api-defn-export.png)
+
+## 7. Configure API Connect
+
+**Note the end point url on API Connect**
+- On the API Connect Dashboard, click on `Sandbox`.
+- Click on `Settings`.
+- Click on `Gateways`.
+- Note the `Endpoint` url.
+
+![Note the endpoint](./images/note_api_connect_endpoint.gif)
+
+**Create API for OAuth**
+- On the API Connect Dashboard, click on `Drafts`.
+- Click on `APIs`
+- Click on `Add` and select `Import API from a file or URL`.
+- Click on `Or import from URL...`.
+- Enter the url  `https://raw.githubusercontent.com/IBM/microservices-using-apiconnect-and-appconnect/master/api-connect-resources/oauth_endpoint.yaml`.
+- The design tab for the API opens. Click on `OAuth 2`.
+- Scroll down to the `Authentication` section. For the `Authentication URL`, specify the login microservice url noted in the `Deploy login microservice` section.
+- Click on `Save` icon.
+
+![Create OAuth API](./images/create_oauth_endpoint.gif)
+
+**Create API for Funds Transfer**
+
+We will use the file exported in the step `Export the App Connect Flow Rest interface` earlier.
+- On the API Connect Dashboard, click on `Drafts`.
+- Click on `APIs`
+- Click on `Add` and select `Import API from a file or URL`.
+- Click on `Browse` and select the file exported earlier from App Connect interface.
+- Click on `Import`.
+- The design tab for the API opens. Click on `Security Defintions`.
+- Click on `+` and select `OAuth` to create a new OAuth definition.
+- Scroll down to `Flow` section. Select `Access code`.
+- For `Authorization URL` enter the following URL - `http://<the end point url for API Connect noted earlier>/oauth-end/oauth2/authorize'.
+- For `Token URL` enter the following URL - `http://<the end point url for API Connect noted earlier>/oauth-end/oauth2/token'.
+- In the `Scopes` section, click on `+` to add a new scope.
+- Enter `funds_transfer` for the name.
+- Enter a description
+- Scroll down to the `Security` section. Select the newly created `OAuth` definition. The scope `funds_transfer` will get automatically selected.
+- Click on `Save` icon.
+
+![Create Funds Transfer API](./images/create_funds_transfer_endpoint.gif)
+
+**Note the funds transfer endpoint url**
+
+On the funds transfer `Design` page:
+- Click on `Base Path` and note the base path.
+- Click on `Paths` and note the path.
+The funds transfer api endpoint url is [End point url for API Connect noted earlier]/[Base Path]/[Path].
+
+It should look like - https://api.au-syd.apiconnect.appdomain.cloud/.../sb/Z1ZFXl/Fund_Transfer.
+ 
+ ![Note funds transfer endpoint url](./images/note_fund_transfer_url.gif) 
+   
+**Create a product and publish**
+
+Go to `Drafts` and select `Products`.
+- Click on `Add + New Product`.
+- Enter `Title`, `Name` and `Version`. Click `Create`.
+- The `Design` page opens.
+- On the `Design` page, select `APIs`.
+- Click on `+` to add APIs.
+- Select both `OAuth endpoint` API and `Funds Transfer` API.
+- Click on `Save` icon.
+- Click on `Stage` icon and select `Sandbox`.
+- Go to `Dashboard`.
+- Click on `Sandbox`.
+- Click on the staged Banking Services product.
+- Select `Publish` from the menu.
+- On the `dialog` that appears, click on `Publish` to publish the product.
+
+![Create Product and Publish](./images/create_product_publish.gif) 
+ 
+**Create an app on developer portal**
+
+- On the `Sandbox` dashboard, click on `Settings`.
+- Click on `Portal`.
+- Click on the `Portal` link.
+- On the portal page, click on `Create an account`.
+- Enter all the details and click `Create new account`.
+- Activate the account using the sent email.
+- Login to the portal with the chosen username and password. Click `Log-in`.
+- Click on `Apps`.
+- Click on `Create an App`.
+- Enter the `Title` and `Description`. For the `OAuth Redirect URI`, enter http://[Node RED Base URL noted earlier]/client.
+- Click `Submit`.
+- Note the `Client ID` generated for the created `App`.
+
+![Create App](./images/create_app.gif) 
+
+**Subscribe to a plan**
+
+On the developer portal, click on `API Products`.
+- Click on `Banking Services` product that we created earlier.
+- Click on `Subscribe` to subscribe to the default plan.
+
+![Subscribe plan](./images/app_subscribe_plan.gif) 
+
 ## 8. Deploy client application
 
-### Import the Node-RED flow and deploy
+**Import the Node-RED flow and deploy**
 
 The Node-RED flow is available at: https://raw.githubusercontent.com/IBM/microservices-using-apiconnect-and-appconnect/master/client-app/node-red-flows/flows.json
 
@@ -429,7 +429,7 @@ The Node-RED flow is available at: https://raw.githubusercontent.com/IBM/microse
 
 ![Deploy app](./images/deploy_client_app.gif) 
 
-#### Configure the application
+**Configure the application**
 
 Go to the URL: http://[Node-RED base url noted earlier]/configureui.
 Enter all the details and click `Configure`.
@@ -437,7 +437,29 @@ Enter all the details and click `Configure`.
 
 ## 9. Analyze the result
 
-Go to URL : https://[Node-RED base url noted earlier]/login.
+As mentioned in `step 5`, a set of user credentials and bank account details are pre-defined in Mongo DB. 
+
+Predefined users are:
+```
+   {_id: "user1", password: "user1"}
+   {_id: "user2", password: "user2"}
+   {_id: "user3", password: "user3"}
+```
+
+Predefined account details are:
+```
+   {_id: "121", accountholder: "John", funds: 25000}
+   {_id: "122", accountholder: "Tim", funds: 15000}
+   {_id: "123", accountholder: "Joseph", funds: 250000}
+   {_id: "124", accountholder: "Mary", funds: 200000}
+```
+
+These users and account details can be used to use/test the application.
+
+Launch the application URL : 
+```
+   https://<Node-RED base url noted earlier>/login
+```
 
 - Enter username and password
 - Click `Allow Access` on the pop-up. The OAuth based authorization uses the `public access code` scheme. 
@@ -449,9 +471,7 @@ Go to URL : https://[Node-RED base url noted earlier]/login.
 
 ## Learn More
 
-[Securing an API by using OAuth 2.0](https://www.ibm.com/support/knowledgecenter/en/SSFS6T/com.ibm.apic.toolkit.doc/tutorial_apionprem_security_OAuth.html)
-
-### App Connect resources links for basic familiarty
+- [Securing an API by using OAuth 2.0](https://www.ibm.com/support/knowledgecenter/en/SSFS6T/com.ibm.apic.toolkit.doc/tutorial_apionprem_security_OAuth.html)
 - Introduction to App Connect on Cloud https://developer.ibm.com/integration/docs/app-connect/
 - OpenAPI APIs https://developer.ibm.com/integration/docs/app-connect/how-to-guides-for-apps/use-ibm-app-connect-openapi/
 - Creating flows for APIs https://developer.ibm.com/integration/docs/app-connect/tutorials-for-ibm-app-connect/creating-flows-api/
