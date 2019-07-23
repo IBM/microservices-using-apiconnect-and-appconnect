@@ -5,7 +5,7 @@ Build a secure microservices based application using API Connect and App Connect
 
 # Long Title
 
-Build a secure microservices based Fund Transfer application using API Connect for Orchestration and App Connect for Authentication/Authorization. 
+Build a secure microservices based Fund Transfer application using IBM API Connect (for Authentication/Authorization) and App Connect Enterprise (for microservices orchestration). 
 
 
 # Author
