@@ -1,16 +1,26 @@
 
 # Build a secure microservices based application using API Connect and App Connect
 
-In a microservices based solution, the common requirements include security of microservices, orchestration (integration with many other applications) of APIs and so on. Such requirements are primarily from the banking and financial services domain.
+In a microservices based solution, security and orchestration of workflows are common requirements across solutions. 
 
-In this code pattern, we demonstrate a banking solution using IBM API Connect and IBM App Connect. API Connect is used to provide OAuth based authorization security to microservices and App Connect Enterprise for easier and seamless integration of APIs (with zero code) for a business user. The solution comprises authentication and funds transfer functionality.
+Let us consider the example of funds transfer in a personal banking scenario. The customer wishing to perform a funds transfer must be securely authenticated and authorized to perform the operation. Also, the funds transfer functionality requires integration with other applications or APIs to complete a transaction. 
+
+In this code pattern, we demonstrate the security and orchestration of microservices using a personal banking use-case scenario. The IBM API Connect and IBM App Connect available on IBM Cloud is used to implement the functionality. API Connect is used to provide OAuth based authorization security to microservices, and App Connect Enterprise for easier and seamless integration of APIs (with zero code) for a business user. The solution comprises authentication and funds transfer functionality.
 
 At the end of this code pattern, users will understand:
-* Authentication and authorization using OAuth in API Connect
-* A banking funds transfer APIs(credit, debit, ..) orchestration using App Connect
-* To build and deploy nodejs microservices on IBM Kubernetes Service
-* Integration of API Connect, App Connect, microservices using Node-RED
+* Authentication and authorization using OAuth in API Connect.
+* Funds transfer operation with orchestration of APIs exposed by `Account Management Service`, `Credit Account Service` and `Debit Account Service` using App Connect.
+* To build and deploy Node.js microservices on IBM Kubernetes Service.
+* Development of a client application using Node-RED.
 
+The `Public Access Code` scheme of OAuth2 has been used for authorization. Since the customer has to authorize the operation, the public scheme is suitable as the application is incapable of maintaining the secrecy of the client secret. In the access code flow, the application has the user provide authorization through a form provided by the gateway server, which, if they grant authorization, provides an authorization code to the application.
+
+In the funds transfer scenario, the following operations are orchestrated using `App Connect` flow:
+- Balance check using `Account Management Service`.
+- Perform a debit of customer account using `Debit Account Service`.
+- Perform a credit of payee account using `Credit Account Service`.
+
+In case of a failure in the credit operation, the transaction is rolled back and the amount is credited back to the customer account.
 
 # Flow
 
