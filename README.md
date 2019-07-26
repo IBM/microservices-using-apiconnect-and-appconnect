@@ -13,7 +13,7 @@ At the end of this code pattern, users will understand:
 * To build and deploy Node.js microservices on IBM Kubernetes Service.
 * Development of a client application using Node-RED.
 
-The `Public Access Code` scheme of OAuth2 has been used for authorization. Since the customer has to authorize the operation, the public scheme is suitable as the application is incapable of maintaining the secrecy of the client secret. In the access code flow, the application has the user provide authorization through a form provided by the gateway server, which, if they grant authorization, provides an authorization code to the application.
+The `Public Access Code` scheme of OAuth2 is used for authorization. Since the customer has to authorize the operation, the public scheme is suitable as the application is incapable of maintaining the secrecy of the client secret. In the access code flow, the application has the user provide authorization through a form provided by the gateway server, which, if they grant authorization, provides an authorization code to the application.
 
 In the funds transfer scenario, the following operations are orchestrated using `App Connect` flow:
 - Balance check using `Account Management Service`.
