@@ -13,7 +13,7 @@ Build a secure funds transfer solution for personal banking scenario using IBM A
 * [Shikha Maheshwari](https://www.linkedin.com/in/shikha-maheshwari) 
 * [Balaji Kadambi](https://www.linkedin.com/in/balaji-kadambi-1519223/)
 * [Muralidhar Chavan](https://www.linkedin.com/in/muralidhar-chavan-3335b638/)
-* [Manjula Hosurmath] (https://in.linkedin.com/in/manjula-g-hosurmath-0b47031)
+* [Manjula Hosurmath](https://in.linkedin.com/in/manjula-g-hosurmath-0b47031)
 
 
 # URLs
