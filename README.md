@@ -17,8 +17,8 @@ The `Public Access Code` scheme of OAuth2 has been used for authorization. Since
 
 For the orchestration of microservices, the following tasks are performed:
 - Balance check using `Account Management Service`.
-- Perform a debit of customer account using `Debit Service`.
-- Perform a credit of payee account using `Credit Service`.
+- Perform a debit of customer account using `Debit Account Service`.
+- Perform a credit of payee account using `Credit Account Service`.
 
 In case of a failure in the credit operation, the transaction is rolled back and the amount is credited back to the customer account.
 
