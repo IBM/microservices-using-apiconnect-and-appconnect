@@ -15,6 +15,13 @@ At the end of this code pattern, users will understand:
 
 The `Public Access Code` scheme of OAuth2 has been used for authorization. Since the customer has to authorize the operation, the public scheme is suitable as the application is incapable of maintaining the secrecy of the client secret. In the access code flow, the application has the user provide authorization through a form provided by the gateway server, which, if they grant authorization, provides an authorization code to the application.
 
+For the orchestration of microservices, the following tasks are performed:
+- Balance check using `Account Management Service`.
+- Perform a debit of customer account using `Debit Service`.
+- Perform a credit of payee account using `Credit Service`.
+
+In case of a failure in the credit operation, the transaction is rolled back and the amount is credited back to the customer account.
+
 # Flow
 
 ![Flow Diagram](images/architecture.png)
