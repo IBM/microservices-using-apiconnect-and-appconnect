@@ -359,8 +359,8 @@ We will use the file exported in the step `Export the App Connect Flow Rest inte
 - The design tab for the API opens. Click on `Security Defintions`.
 - Click on `+` and select `OAuth` to create a new OAuth definition.
 - Scroll down to `Flow` section. Select `Access code`.
-- For `Authorization URL` enter the following URL - `http://<the end point url for API Connect noted earlier>/oauth-end/oauth2/authorize'.
-- For `Token URL` enter the following URL - `http://<the end point url for API Connect noted earlier>/oauth-end/oauth2/token'.
+- For `Authorization URL` enter the following URL - `http://[the end point url for API Connect noted earlier]/oauth-end/oauth2/authorize'.
+- For `Token URL` enter the following URL - `http://[the end point url for API Connect noted earlier]/oauth-end/oauth2/token'.
 - In the `Scopes` section, click on `+` to add a new scope.
 - Enter `funds_transfer` for the name.
 - Enter a description
