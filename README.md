@@ -393,7 +393,7 @@ Go to `Drafts` and select `Products`.
 - Click on `Stage` icon and select `Sandbox`.
 - Go to `Dashboard`.
 - Click on `Sandbox`.
-- Click on the staged Banking Services product.
+- Click on the staged product.
 - Select `Publish` from the menu.
 - On the `dialog` that appears, click on `Publish` to publish the product.
 
@@ -419,7 +419,7 @@ Go to `Drafts` and select `Products`.
 **Subscribe to a plan**
 
 On the developer portal, click on `API Products`.
-- Click on `Banking Services` product that we created earlier.
+- Click on the product that we created earlier.
 - Click on `Subscribe` to subscribe to the default plan.
 
 ![Subscribe plan](./images/app_subscribe_plan.gif) 
