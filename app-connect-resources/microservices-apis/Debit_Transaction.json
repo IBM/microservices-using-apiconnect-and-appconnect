@@ -5,7 +5,7 @@
     "description": "Debit an account",
     "version": "1.0.0"
   },
-  "host": "184.172.250.226:32425",
+  "host": ".",
   "basePath": "/",
   "schemes": [
     "http"
