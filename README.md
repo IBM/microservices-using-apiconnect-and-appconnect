@@ -290,8 +290,12 @@ For the microservices used in this code pattern, the REST APIs definition files 
 - Browse to `app-connect-resources/microservices-apis` folder and select `Account_Check.json` file.
 - Specify the name to be `Account_Check`. While any unique name can be given to APIs, we will maintain the names specified here so that the flow that we will import in later steps work with the APIs, without error.
 - Optional. Add a description that summarizes the function of the API.
-- Click `Add`.
-> Note that the hostname and port are overwritten while connecting to an account.
+- Click `Add`. Click `Add your API or web service now`. Click "Add an OpenAPI definition, WSDL or Zip".
+- Select the `Account Check` API json file to import.
+- Enter name as `Account_Check`. Enter something in Description field, if required. Then click on `Add API`.
+- Expoand `Imported` and click `Connect`.
+- Under `Override the hostnameand port of the Account_Check server:(optional)` enter the Account_Check microservice's IP address and port. e.g. `http://173.193.79.231:32424`.
+- Click `Connect`.
 - Similarly add APIs `Debit_Transaction` (name should be `Debit_Transaction`) and `Credit_Transaction` (name should be `Credit_Transaction`).
 - As a sanity check, verify that the microservices are working fine using a REST client like postman.
 
