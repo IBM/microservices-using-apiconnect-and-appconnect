@@ -112,8 +112,8 @@ A new instance of Node-RED should be created.
 
     ```
     $ kubectl version  --short
-    Client Version: v1.9.2
-    Server Version: v1.8.6-4+9c2a4c1ed1ee7e
+    Client Version: v1.14.6
+    Server Version: v1.16.7+IKS
     ```
 
  **Get the public IP for Kubernetes Cluster**
