@@ -15,7 +15,7 @@ spec:
         version: v1
     spec:
       containers:
-        - image: mongo
+        - image: mongo:3.6.17
           name: mongo
           ports:
             - containerPort: 27017
