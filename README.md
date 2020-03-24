@@ -157,7 +157,7 @@ Perform the following steps to deploy microservices.
 
 **Update MongoDB Connection String**
 
-Prepare connection url as explained in step 6. Then execute the following commands to update mongo db connection url in app.js of all four microservices. 
+Prepare connection url as explained in step 4. Then execute the following commands to update mongo db connection url in app.js of all four microservices. 
 
 ```
    cd Microservices
