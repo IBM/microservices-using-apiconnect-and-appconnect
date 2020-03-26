@@ -9,7 +9,7 @@ app.use(bodyParser.json());
 // Connect to db
 var connection_url = "CONNECTION_URL";
 var url = "mongodb://"+ connection_url + "/test";
-MongoClient.connect(url, {useNewUrlParser: true} , function(err, mongoclient) {
+MongoClient.connect(url, {useNewUrlParser: true, useUnifiedTopology: true} , function(err, mongoclient) {
   if(err) {
     console.log("Mongo DB connection failed");
     return console.dir(err);
