@@ -1,12 +1,12 @@
 {
   "name": "account_management",
   "private": true,
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Account Management Application",
   "author": "Shikha Maheshwari <shikha.mah@in.ibm.com>",
   "dependencies": {
     "body-parser": "*",
     "express": "^4.16.4",
-    "mongo": "^0.1.0"
+    "mongo": "*"
   }
 }
