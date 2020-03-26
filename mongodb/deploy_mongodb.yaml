@@ -15,7 +15,7 @@ spec:
         version: v1
     spec:
       containers:
-        - image: mongo:3.6.17
+        - image: mongo
           name: mongo
           ports:
             - containerPort: 27017
@@ -31,4 +31,4 @@ spec:
     - port: 27017
       targetPort: 27017
   selector:
-    name: mongo
+    app: mongo
