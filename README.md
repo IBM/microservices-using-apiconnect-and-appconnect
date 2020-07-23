@@ -227,7 +227,10 @@ $ ibmcloud cr build -t <DEPLOY_TARGET> .
 Update image location(deploy target) in `deploy.yaml`.
 
 ```
-$ sed -i '' s#IMAGE#<DEPLOY_TARGET># deploy.yaml
+$ sed -i '' s#IMAGE#<DEPLOY_TARGET># deploy.yaml     ## mac
+OR
+$ sed -i s#IMAGE#u<DEPLOY_TARGET># deploy.yaml      ## linux
+
 $ kubectl create -f deploy.yaml 
 
 $ kubectl get services|grep login
@@ -245,7 +248,10 @@ Following are the steps for account_management service.
   cd account_management_service
   $ ibmcloud cr build -t <DEPLOY_TARGET> .
   
-  $ sed -i '' s#IMAGE#<DEPLOY_TARGET># deploy.yaml
+  $ sed -i '' s#IMAGE#<DEPLOY_TARGET># deploy.yaml    ## mac
+  OR
+  $ sed -i s#IMAGE#u<DEPLOY_TARGET># deploy.yaml     ## linux
+  
   $ kubectl create -f deploy.yaml 
 
   $ kubectl get services | grep acc
@@ -261,7 +267,10 @@ Following are the steps for debit account service.
   cd debit_service
   $ ibmcloud cr build -t <DEPLOY_TARGET> .
   
-  $ sed -i '' s#IMAGE#<DEPLOY_TARGET># deploy.yaml
+  $ sed -i '' s#IMAGE#<DEPLOY_TARGET># deploy.yaml     ## mac
+  OR
+  $ sed -i s#IMAGE#u<DEPLOY_TARGET># deploy.yaml      ## linux
+  
   $ kubectl create -f deploy.yaml 
 
   $ kubectl get services |grep debit
@@ -278,7 +287,10 @@ Following are the steps for credit account service.
   cd credit_service
   $ ibmcloud cr build -t <DEPLOY_TARGET> .
   
-  $ sed -i '' s#IMAGE#<DEPLOY_TARGET># deploy.yaml
+  $ sed -i '' s#IMAGE#<DEPLOY_TARGET># deploy.yaml    ## mac
+  OR
+  $ sed -i s#IMAGE#u<DEPLOY_TARGET># deploy.yaml     ## linux
+  
   $ kubectl create -f deploy.yaml 
 
   $ kubectl get services|grep credit
