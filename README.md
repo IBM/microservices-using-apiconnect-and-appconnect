@@ -301,6 +301,9 @@ Credit account functionality of this service can be accessed by using `http://<p
 
 > Note: We have defined NodePort of all four microservices. Please change the ports if not available in your Kubernetes Cluster.
 
+If you want to test your microservices, please refer to [test instructions]
+(https://github.com/IBM/microservices-using-apiconnect-and-appconnect/blob/master/testMicroservices.md). Else continue to next step.
+
 ## 6. Configure App Connect
 
 Use App Connect to connect your different applications and make your business more efficient. Set up flows that define how data is moved from one application to one or more other applications. App Connect supports a range of skill levels and interfaces, giving you the flexibility to create integrations without writing a single line of code. You can use a web user interface or drop resources into a toolkit that gives a broader range of configuration options. Your entire organization can make smarter business decisions by providing rapid access, visibility, and control over data as it flows through your business applications and systems from a single place - App Connect. Find more App Connect resources in [Learn More](#app-connect-resources-links-for-basic-familiarty) section.
