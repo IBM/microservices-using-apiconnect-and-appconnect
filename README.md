@@ -173,14 +173,14 @@ Prepare connection url as explained in step 4. Then execute the following comman
 
 ```
    ## For MAC
-   cd Microservices
+   cd microservices
    sed -i '' s#CONNECTION_URL#x.x.x.x:port# login_service/app.js
    sed -i '' s#CONNECTION_URL#x.x.x.x:port# account_management_service/app.js
    sed -i '' s#CONNECTION_URL#x.x.x.x:port# debit_service/app.js
    sed -i '' s#CONNECTION_URL#x.x.x.x:port# credit_service/app.js  
    
    ## For Linux
-   cd Microservices
+   cd microservices
    sed -i s#CONNECTION_URL#x.x.x.x:port# login_service/app.js
    sed -i s#CONNECTION_URL#x.x.x.x:port# account_management_service/app.js
    sed -i s#CONNECTION_URL#x.x.x.x:port# debit_service/app.js
