@@ -301,8 +301,7 @@ Credit account functionality of this service can be accessed by using `http://<p
 
 > Note: We have defined NodePort of all four microservices. Please change the ports if not available in your Kubernetes Cluster.
 
-If you want to test your microservices, please refer to [test instructions]
-(https://github.com/IBM/microservices-using-apiconnect-and-appconnect/blob/master/testMicroservices.md). Else continue to next step.
+If you want to test your microservices, please refer to [test instructions](https://github.com/IBM/microservices-using-apiconnect-and-appconnect/blob/master/testMicroservices.md). Else continue to next step.
 
 ## 6. Configure App Connect
 
