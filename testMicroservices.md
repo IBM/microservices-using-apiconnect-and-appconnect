@@ -27,7 +27,7 @@ The following set of user credentials and the bank account details are already p
    {_id: "124", accountholder: "Mary", funds: 200000}
 ```
 
-**Login Service**
+**Login Microservice**
 
 Following snapshot shows the given input and the output for the login microservice.
 
@@ -44,7 +44,7 @@ The curl command for login service is:
     -H 'postman-token: 948cfb36-4b9d-ac31-7a0f-124615396c5c'
 ```
 
-**Account Management Service**
+**Account Management Microservice**
 
 The below snapshot shows the input and the output for the account management microservice.
 
@@ -90,7 +90,7 @@ Corresponding pod logs can be checked for more details.
   {"responseCode":0,"message":"Sufficient funds to transfer"}
 ```
 
-**Debit Account Service**
+**Debit Account Microservice**
 
 It shows the input and the output for the debit account microservice.
 
@@ -125,7 +125,7 @@ The curl command for the same:
 
 Make a note of the transaction ID after successful debit transaction and provide this transaction ID for credit transaction to complete the funds transfer from one account to another.
 
-**Credit Account Service**
+**Credit Account Microservice**
 
 It shows the input and the output for the credit account microservice.
 
