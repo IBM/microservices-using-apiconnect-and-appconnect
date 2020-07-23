@@ -3,11 +3,12 @@
 The deployed microservices can be tested using a tool which enables people to test calls to APIs like Postman or using `curl` command. Follow the below steps to test your deployed microservices.
 
 The microservices can be accessed by using `http://<public_ip_of_your_cluster>:<nodeport_of_your_service>`.
-For example: accessing the debit account microservice url will return something like this below on your browser.
+
+For example, accessing the debit account microservice url will return something like this on your browser.
 
 ![](images/debit_account_service_msg.png)
 
-A set of user credentials and the following bank account details are populated already in Mongo DB to use/test the application.
+The following set of user credentials and the bank account details are already populated in Mongo DB to use/test the microservices.
 
 *Users details*
 
