@@ -5,7 +5,7 @@ The deployed microservices can be tested using a tool which enables people to te
 The microservices can be accessed by using `http://<public_ip_of_your_cluster>:<nodeport_of_your_service>`.
 For example: accessing the debit account microservice url will return something like this below on your browser.
 
-![](images/debit_account_service.png)
+![](images/debit_account_service_msg.png)
 
 A set of user credentials and the following bank account details are populated already in Mongo DB to use/test the application.
 
