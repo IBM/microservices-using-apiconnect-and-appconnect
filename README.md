@@ -173,14 +173,14 @@ Prepare connection url as explained in step 4. Then execute the following comman
 
 ```
    ## For MAC
-   cd microservices
+   cd ../microservices
    sed -i '' s#CONNECTION_URL#x.x.x.x:port# login_service/app.js
    sed -i '' s#CONNECTION_URL#x.x.x.x:port# account_management_service/app.js
    sed -i '' s#CONNECTION_URL#x.x.x.x:port# debit_service/app.js
    sed -i '' s#CONNECTION_URL#x.x.x.x:port# credit_service/app.js  
    
    ## For Linux
-   cd microservices
+   cd ../microservices
    sed -i s#CONNECTION_URL#x.x.x.x:port# login_service/app.js
    sed -i s#CONNECTION_URL#x.x.x.x:port# account_management_service/app.js
    sed -i s#CONNECTION_URL#x.x.x.x:port# debit_service/app.js
@@ -229,7 +229,7 @@ Update image location(deploy target) in `deploy.yaml`.
 ```
 $ sed -i '' s#IMAGE#<DEPLOY_TARGET># deploy.yaml     ## mac
 OR
-$ sed -i s#IMAGE#u<DEPLOY_TARGET># deploy.yaml      ## linux
+$ sed -i s#IMAGE#<DEPLOY_TARGET># deploy.yaml      ## linux
 
 $ kubectl create -f deploy.yaml 
 
@@ -245,12 +245,12 @@ The login microservice will be accessible at `http://<public_ip_of_cluster>:<log
 Following are the steps for account_management service.
 
 ```
-  cd account_management_service
+  cd ../account_management_service
   $ ibmcloud cr build -t <DEPLOY_TARGET> .
   
   $ sed -i '' s#IMAGE#<DEPLOY_TARGET># deploy.yaml    ## mac
   OR
-  $ sed -i s#IMAGE#u<DEPLOY_TARGET># deploy.yaml     ## linux
+  $ sed -i s#IMAGE#<DEPLOY_TARGET># deploy.yaml     ## linux
   
   $ kubectl create -f deploy.yaml 
 
@@ -264,12 +264,12 @@ Account management functionality of this service can be accessed by using `http:
 Following are the steps for debit account service.
 
 ```
-  cd debit_service
+  cd ../debit_service
   $ ibmcloud cr build -t <DEPLOY_TARGET> .
   
   $ sed -i '' s#IMAGE#<DEPLOY_TARGET># deploy.yaml     ## mac
   OR
-  $ sed -i s#IMAGE#u<DEPLOY_TARGET># deploy.yaml      ## linux
+  $ sed -i s#IMAGE#<DEPLOY_TARGET># deploy.yaml      ## linux
   
   $ kubectl create -f deploy.yaml 
 
@@ -284,12 +284,12 @@ Debit account functionality of this service can be accessed by using `http://<pu
 Following are the steps for credit account service.
 
 ```
-  cd credit_service
+  cd ../credit_service
   $ ibmcloud cr build -t <DEPLOY_TARGET> .
   
   $ sed -i '' s#IMAGE#<DEPLOY_TARGET># deploy.yaml    ## mac
   OR
-  $ sed -i s#IMAGE#u<DEPLOY_TARGET># deploy.yaml     ## linux
+  $ sed -i s#IMAGE#<DEPLOY_TARGET># deploy.yaml     ## linux
   
   $ kubectl create -f deploy.yaml 
 
