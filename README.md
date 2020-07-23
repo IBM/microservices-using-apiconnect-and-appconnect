@@ -104,8 +104,7 @@ A new instance of Node-RED should be created.
 
   * Check the status of your cluster `IBM Cloud Dashboard -> Clusters -> <your cluster>`. If status is not `Normal`, then you need to wait for some more time to proceed further.
     
-  * Once your cluster is ready, open the access tab `IBM Cloud Dashboard -> Clusters -> <your cluster> -> Access` as shown in snapshot.
-    Perform the steps provided under this section to get access of your cluster through `kubectl` CLI.
+  * Once your cluster is ready, open the access tab `IBM Cloud Dashboard -> Clusters -> <your cluster> -> Access`. Perform the steps provided under this section to get access of your cluster through `kubectl` CLI.
     
   * Verify that the kubectl commands run properly with your cluster by checking the Kubernetes CLI server version.
 
