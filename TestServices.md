@@ -56,7 +56,7 @@ Here, input json is -
 ```
 
 Alternate curl command is - 
--H 'postman-token: 547d7a27-ad1e-eafb-ca48-3a58bfc16dc6' \
+
 ```
   curl -X POST \
     http://<ip>:<port>/check_accounts \
