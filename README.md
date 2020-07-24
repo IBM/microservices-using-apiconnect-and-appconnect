@@ -100,13 +100,11 @@ A new instance of Node-RED should be created.
 
 ## 3. Setup environment for Kubernetes CLI
 
-  * Check the status of your cluster `IBM Cloud Dashboard -> Kubernetes Cluster -> <your cluster>`. If status is not `Normal`, then you need to wait for some more time to proceed further.
-    
-  * Once your cluster is ready, open the access tab `IBM Cloud Dashboard -> Kubernetes Cluster -> <your cluster> -> Access` as shown in snapshot.
+**Check status of your Kubernetes Cluster**
 
-    ![](images/access-to-cluster.png)
+  * Check the status of your cluster `IBM Cloud Dashboard -> Clusters -> <your cluster>`. If status is not `Normal`, then you need to wait for some more time to proceed further.
     
-    Perform the steps provided under this section to get access of your cluster through `kubectl` CLI.
+  * Once your cluster is ready, open the access tab `IBM Cloud Dashboard -> Clusters -> <your cluster> -> Access`. Perform the steps provided under this section to get access of your cluster through `kubectl` CLI.
     
   * Verify that the kubectl commands run properly with your cluster by checking the Kubernetes CLI server version.
 
@@ -120,13 +118,27 @@ A new instance of Node-RED should be created.
  
  Once cluster is up and running then find out the public IP of your cluster. It will be required for further steps.
 
-  * Go to `IBM Cloud Dashboard -> Kubernetes Cluster -> <your cluster>`. It gives you details of the cluster.
+  * Go to `IBM Cloud Dashboard -> Clusters -> <your cluster>`. It gives you details of the cluster.
 
   * Access `Worker Nodes` tab, it will show you the public IP of your cluster as shown in below screenshot.
 
     ![](images/worker-nodes.png)
   
    Make a note of this public IP. It will be used in further steps.
+   
+ **Create namespace on IBM Cloud container registry**
+ 
+ IBM Cloud Container Registry is used to store and access private container images. If you have not created namespace before or you want to use a different
+ namespace than existing one, then need to create a new namespace. You can create a namespace through interface as 
+ `Navigation > Kubernetes > Registry > Namespaces > Create` or using the following CLI commands:
+ 
+ ```
+   # To create a namespace
+   $ ibmcloud cr namespace-add <my_namespace>
+ 
+   # To verify that namespace is created
+   $ ibmcloud cr namespace-list
+ ```
 
 ## 4. Deploy Mongo DB
 
@@ -157,14 +169,22 @@ Perform the following steps to deploy microservices.
 
 **Update MongoDB Connection String**
 
-Prepare connection url as explained in step 4. Then execute the following commands to update mongo db connection url in app.js of all four microservices. 
+Prepare connection url as explained in step 4. Then execute the following commands to update mongo db connection url in app.js of all four microservices as per your system(linux/mac). 
 
 ```
-   cd Microservices
+   ## For MAC
+   cd ../microservices
    sed -i '' s#CONNECTION_URL#x.x.x.x:port# login_service/app.js
-   sed -i '' s#CONNECTION_URL#x.x.x.x:port# account_management/app.js
+   sed -i '' s#CONNECTION_URL#x.x.x.x:port# account_management_service/app.js
    sed -i '' s#CONNECTION_URL#x.x.x.x:port# debit_service/app.js
-   sed -i '' s#CONNECTION_URL#x.x.x.x:port# credit_service/app.js   
+   sed -i '' s#CONNECTION_URL#x.x.x.x:port# credit_service/app.js  
+   
+   ## For Linux
+   cd ../microservices
+   sed -i s#CONNECTION_URL#x.x.x.x:port# login_service/app.js
+   sed -i s#CONNECTION_URL#x.x.x.x:port# account_management_service/app.js
+   sed -i s#CONNECTION_URL#x.x.x.x:port# debit_service/app.js
+   sed -i s#CONNECTION_URL#x.x.x.x:port# credit_service/app.js
 ```
 
 **Prepare deploy target**
@@ -207,7 +227,10 @@ $ ibmcloud cr build -t <DEPLOY_TARGET> .
 Update image location(deploy target) in `deploy.yaml`.
 
 ```
-$ sed -i '' s#IMAGE#<DEPLOY_TARGET># deploy.yaml
+$ sed -i '' s#IMAGE#<DEPLOY_TARGET># deploy.yaml     ## mac
+OR
+$ sed -i s#IMAGE#<DEPLOY_TARGET># deploy.yaml      ## linux
+
 $ kubectl create -f deploy.yaml 
 
 $ kubectl get services|grep login
@@ -222,10 +245,13 @@ The login microservice will be accessible at `http://<public_ip_of_cluster>:<log
 Following are the steps for account_management service.
 
 ```
-  cd account_management
+  cd ../account_management_service
   $ ibmcloud cr build -t <DEPLOY_TARGET> .
   
-  $ sed -i '' s#IMAGE#<DEPLOY_TARGET># deploy.yaml
+  $ sed -i '' s#IMAGE#<DEPLOY_TARGET># deploy.yaml    ## mac
+  OR
+  $ sed -i s#IMAGE#<DEPLOY_TARGET># deploy.yaml     ## linux
+  
   $ kubectl create -f deploy.yaml 
 
   $ kubectl get services | grep acc
@@ -238,10 +264,13 @@ Account management functionality of this service can be accessed by using `http:
 Following are the steps for debit account service.
 
 ```
-  cd debit_service
+  cd ../debit_service
   $ ibmcloud cr build -t <DEPLOY_TARGET> .
   
-  $ sed -i '' s#IMAGE#<DEPLOY_TARGET># deploy.yaml
+  $ sed -i '' s#IMAGE#<DEPLOY_TARGET># deploy.yaml     ## mac
+  OR
+  $ sed -i s#IMAGE#<DEPLOY_TARGET># deploy.yaml      ## linux
+  
   $ kubectl create -f deploy.yaml 
 
   $ kubectl get services |grep debit
@@ -255,10 +284,13 @@ Debit account functionality of this service can be accessed by using `http://<pu
 Following are the steps for credit account service.
 
 ```
-  cd credit_service
+  cd ../credit_service
   $ ibmcloud cr build -t <DEPLOY_TARGET> .
   
-  $ sed -i '' s#IMAGE#<DEPLOY_TARGET># deploy.yaml
+  $ sed -i '' s#IMAGE#<DEPLOY_TARGET># deploy.yaml    ## mac
+  OR
+  $ sed -i s#IMAGE#<DEPLOY_TARGET># deploy.yaml     ## linux
+  
   $ kubectl create -f deploy.yaml 
 
   $ kubectl get services|grep credit
@@ -268,6 +300,8 @@ Following are the steps for credit account service.
 Credit account functionality of this service can be accessed by using `http://<public_ip_of_cluster>:32426/credit_account`
 
 > Note: We have defined NodePort of all four microservices. Please change the ports if not available in your Kubernetes Cluster.
+
+If you want to test your microservices, please refer to [test instructions](https://github.com/IBM/microservices-using-apiconnect-and-appconnect/blob/master/TestServices.md). Else continue to next step.
 
 ## 6. Configure App Connect
 

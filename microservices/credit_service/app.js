@@ -57,7 +57,7 @@ app.post('/credit_account', function (req, res) {
       } else if (account1) {
         //Temporary code to test -ve scenario
         console.log("Account ID is : ", account1._id);
-        if (account1._id == "124"){
+        if (account1._id == "125"){
           console.log("testing negative scenario  ");
                         var resp = {transactionID: -2, responseCode: 1, message: "Credit transaction failed"};
                         console.log(JSON.stringify(resp));
@@ -66,7 +66,7 @@ app.post('/credit_account', function (req, res) {
         } else {   
         //Temporry code ends
         //console.log("acc length ", account1);
-        var account_balance = account1.funds + amount_to_transfer;
+        var account_balance = account1[0].funds + amount_to_transfer;
         try {
           collection.updateOne({_id:target_account}, { $set: {"funds":account_balance}}, function(err2, response){
             if (response.modifiedCount == 1) {
