@@ -128,9 +128,9 @@ It shows the input and the output for the credit account microservice.
 Input JSON to API is -
 ```
   {
-	"source_accountID":"123",
+	"source_accountID":"121",
 	"amount_to_transfer":1000,
-	"target_accountID":"121",
+	"target_accountID":"123",
 	"transactionID":"5f19d77bb56a587c07d61683"
   }
 ```
@@ -142,9 +142,9 @@ The curl command for the same:
     -H 'cache-control: no-cache' \
     -H 'content-type: application/json' \
     -d '{
-    "source_accountID":"123",
+    "source_accountID":"121",
     "amount_to_transfer":1000,
-    "target_accountID":"121",
+    "target_accountID":"123",
     "transactionID":"5f19d77bb56a587c07d61683"
   }'
 ```
