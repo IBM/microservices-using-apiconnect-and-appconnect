@@ -66,7 +66,7 @@ app.post('/credit_account', function (req, res) {
         } else {   
         //Temporry code ends
         //console.log("acc length ", account1);
-        var account_balance = account1[0].funds + amount_to_transfer;
+        var account_balance = account1.funds + amount_to_transfer;
         try {
           collection.updateOne({_id:target_account}, { $set: {"funds":account_balance}}, function(err2, response){
             if (response.modifiedCount == 1) {
