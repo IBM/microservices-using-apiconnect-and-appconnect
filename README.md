@@ -1,5 +1,7 @@
 
-# Build a secure microservices based application using API Connect and App Connect
+# Build a secure microservices-based banking application
+
+### Use API Connect for OAuth functions, App Connect for API orchestration, and Node.js to develop the banking application
 
 In a microservices based solution, security and orchestration of workflows are common requirements across solutions. 
 
