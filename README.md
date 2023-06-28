@@ -1,4 +1,7 @@
+# WARNING: This repository is no longer maintained :warning:
 
+> This repository will not be updated. The repository will be kept available in read-only mode.
+> 
 # Build a secure microservices-based banking application
 
 ### Use API Connect for OAuth functions, App Connect for API orchestration, and Node.js to develop the banking application
